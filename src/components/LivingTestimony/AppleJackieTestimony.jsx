@@ -306,29 +306,21 @@ export default function AppleJackieTestimony() {
             </div>
 
             {/* Slider Navigation Controls */}
-            <div className="flex items-center gap-3 self-start sm:self-auto">
-              <div className="flex items-center gap-1 rounded-full bg-white/5 px-4 py-1.5 border border-white/10 text-xs font-mono">
-                <span className="text-amber-400 font-bold">{String(activeSlide + 1).padStart(2, '0')}</span>
-                <span className="text-mist">/</span>
-                <span className="text-paper/70">{String(TIMELINE_STAGES.length).padStart(2, '0')}</span>
-              </div>
-
-              <div className="flex gap-2">
-                <button
-                  onClick={prevSlide}
-                  aria-label="Previous milestone"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-paper transition-all duration-300 hover:bg-amber-400 hover:text-ink hover:border-amber-400 hover:scale-105 active:scale-95"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                  onClick={nextSlide}
-                  aria-label="Next milestone"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-paper transition-all duration-300 hover:bg-amber-400 hover:text-ink hover:border-amber-400 hover:scale-105 active:scale-95"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </div>
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <button
+                onClick={prevSlide}
+                aria-label="Previous milestone"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-paper transition-all duration-300 hover:bg-amber-400 hover:text-ink hover:border-amber-400 hover:scale-105 active:scale-95"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={nextSlide}
+                aria-label="Next milestone"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-paper transition-all duration-300 hover:bg-amber-400 hover:text-ink hover:border-amber-400 hover:scale-105 active:scale-95"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
             </div>
           </div>
 
