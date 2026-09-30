@@ -443,7 +443,7 @@ export default function FloatingChatbot() {
   return (
     <div
       data-floating-chatbot
-      className="fixed bottom-6 right-5 z-[9999] flex flex-col items-end sm:right-7 animate-in fade-in duration-500"
+      className="fixed bottom-6 right-5 z-[9999] flex flex-col items-end sm:right-7 animate-in fade-in duration-500 transform-gpu will-change-transform"
     >
       {/* ─── Chat Window Modal ────────────────────────────────────────── */}
       {isOpen && (

@@ -444,7 +444,7 @@ export default function Contact3DCanvas({ className = '' }) {
     <div className={`relative h-full w-full min-h-[340px] cursor-grab active:cursor-grabbing ${className}`}>
       <Canvas
         camera={{ position: [0, 0.2, 4.2], fov: 45 }}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         dpr={[1, 1.5]}
         style={{ width: '100%', height: '100%' }}
       >

@@ -121,7 +121,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 transition-colors duration-300">
+      <header className="fixed inset-x-0 top-0 z-50 transition-colors duration-300 transform-gpu will-change-transform">
         <div
           ref={bgRef}
           className="absolute inset-0 border-b border-line bg-paper/88 opacity-0 backdrop-blur-md transition-all duration-300"
