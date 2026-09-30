@@ -148,23 +148,23 @@ export default function Contact({ standalone = false }) {
 
       <Container className="relative z-10">
         {/* Section Header */}
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-bronze/30 bg-bronze/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-bronze backdrop-blur-md">
-            <Sparkles className="h-3.5 w-3.5 animate-pulse text-bronze" />
-            <span>Direct Inquiries & Philanthropy</span>
+        <div className="max-w-3xl mx-auto lg:mx-0 text-center lg:text-left flex flex-col items-center lg:items-start">
+          <div className="inline-flex items-center gap-2 rounded-full border border-bronze/30 bg-bronze/10 px-3.5 sm:px-4 py-1.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.12em] sm:tracking-[0.2em] text-bronze backdrop-blur-md">
+            <Sparkles className="h-3.5 w-3.5 shrink-0 animate-pulse text-bronze" />
+            <span className="truncate">Direct Inquiries &amp; Philanthropy</span>
           </div>
 
           {standalone ? (
-            <ScrollReveal type="text" as="h1" data-contact-intro className="display mt-6 text-4xl text-ink sm:text-6xl lg:text-7xl">
+            <ScrollReveal type="text" as="h1" data-contact-intro className="display mt-5 sm:mt-6 text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-ink leading-tight">
               Let&apos;s Create <span className="font-serif italic text-bronze">Meaningful</span> Impact.
             </ScrollReveal>
           ) : (
-            <ScrollReveal type="text" as="h2" data-contact-intro className="display mt-6 text-4xl text-ink sm:text-6xl lg:text-7xl">
+            <ScrollReveal type="text" as="h2" data-contact-intro className="display mt-5 sm:mt-6 text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-ink leading-tight">
               Let&apos;s Create <span className="font-serif italic text-bronze">Meaningful</span> Impact.
             </ScrollReveal>
           )}
 
-          <ScrollReveal type="block" data-contact-intro className="mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+          <ScrollReveal type="block" data-contact-intro className="mt-4 sm:mt-5 max-w-xl text-sm leading-relaxed text-muted sm:text-base md:text-lg">
             For conversations regarding foundation initiatives, educational sponsorships, executive consultations, or private philanthropy, write directly.
           </ScrollReveal>
         </div>
@@ -172,7 +172,7 @@ export default function Contact({ standalone = false }) {
         {/* Main Grid: 3D Interactive Card + Form */}
         <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left Column: 3D Interactive Dubai HQ Showcase */}
-          <div className="flex flex-col gap-6 lg:col-span-5">
+          <div className="flex flex-col gap-6 lg:col-span-5 max-w-lg mx-auto lg:max-w-none w-full">
             <div
               ref={cardRef}
               onMouseMove={handleCardMouseMove}
@@ -180,41 +180,41 @@ export default function Contact({ standalone = false }) {
               style={{ transition: 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)' }}
               className="relative overflow-hidden rounded-2xl border border-line/80 bg-ivory/90 shadow-[0_20px_50px_-20px_rgba(23,21,19,0.12)] backdrop-blur-xl"
             >
-              {/* Card Top Bar with View Toggles */}
-              <div className="flex items-center justify-between border-b border-line/70 px-5 py-3.5">
-                <div className="flex items-center gap-2">
-                  <span className="relative flex h-2.5 w-2.5">
+              {/* Card Top Bar with View Toggles — Single Row Layout */}
+              <div className="flex items-center justify-between gap-1.5 sm:gap-2 border-b border-line/70 px-3 sm:px-5 py-2.5 sm:py-3.5 flex-nowrap overflow-hidden">
+                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                  <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5 shrink-0">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                    <span className="relative inline-flex h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-emerald-500" />
                   </span>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-ink">
-                    HeadQuarter's
+                  <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-ink shrink-0">
+                    Headquarters
                   </span>
                 </div>
 
-                <div className="flex rounded-lg border border-line/60 bg-paper/60 p-0.5 text-xs font-medium text-muted">
+                <div className="flex items-center rounded-lg border border-line/60 bg-paper/60 p-0.5 text-[10px] sm:text-xs font-medium text-muted shrink-0">
                   <button
                     type="button"
                     onClick={() => setViewMode('3d')}
-                    className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 transition-all ${viewMode === '3d' ? 'bg-bronze text-paper shadow-sm' : 'hover:text-ink'
+                    className={`flex items-center gap-1 sm:gap-1.5 rounded-md px-1.5 sm:px-2.5 py-0.5 sm:py-1 whitespace-nowrap transition-all ${viewMode === '3d' ? 'bg-bronze text-paper shadow-sm font-semibold' : 'hover:text-ink'
                       }`}
                   >
-                    <Globe className="h-3.5 w-3.5" />
+                    <Globe className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
                     <span>3D Globe</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setViewMode('map')}
-                    className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 transition-all ${viewMode === 'map' ? 'bg-bronze text-paper shadow-sm' : 'hover:text-ink'
+                    className={`flex items-center gap-1 sm:gap-1.5 rounded-md px-1.5 sm:px-2.5 py-0.5 sm:py-1 whitespace-nowrap transition-all ${viewMode === 'map' ? 'bg-bronze text-paper shadow-sm font-semibold' : 'hover:text-ink'
                       }`}
                   >
-                    <MapPin className="h-3.5 w-3.5" />
+                    <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
                     <span>Map View</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setViewMode('photo')}
-                    className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 transition-all ${viewMode === 'photo' ? 'bg-bronze text-paper shadow-sm' : 'hover:text-ink'
+                    className={`flex items-center gap-1 sm:gap-1.5 rounded-md px-1.5 sm:px-2.5 py-0.5 sm:py-1 whitespace-nowrap transition-all ${viewMode === 'photo' ? 'bg-bronze text-paper shadow-sm font-semibold' : 'hover:text-ink'
                       }`}
                   >
                     <span>Photo</span>
@@ -304,14 +304,11 @@ export default function Contact({ standalone = false }) {
 
               {/* Office Details & Live Clock */}
               <div className="p-5 sm:p-6">
-                <div className="flex items-center justify-between border-b border-line/60 pb-4">
-                  <div>
-                    <h3 className="font-serif text-lg font-medium text-ink">
-                      International Humanitarian Office
-                    </h3>
-                    <p className="text-xs text-muted">Gilbert Kevin Jimmy Kwizera Global Practice</p>
-                  </div>
-
+                <div className="border-b border-line/60 pb-4 text-center sm:text-left">
+                  <h3 className="font-serif text-lg sm:text-xl font-medium text-ink">
+                    International Humanitarian Office
+                  </h3>
+                  <p className="mt-0.5 text-xs text-muted">Gilbert Kevin Jimmy Kwizera Global Practice</p>
                 </div>
 
                 {/* Quick Interactive Contact Rows */}

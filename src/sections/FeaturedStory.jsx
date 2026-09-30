@@ -11,8 +11,24 @@ export default function FeaturedStory() {
   const story = projects.find((project) => project.slug === 'he-battled-cancer-for-24-years')
 
   return (
-    <section data-scene="feature" className="bg-ink text-paper">
+    <section data-scene="feature" className="bg-ink text-paper relative">
       <div className="relative min-h-[78svh] overflow-hidden" data-parallax-bounds>
+        {/* Smooth SVG Wave Transition from Ivory Section */}
+        <div className="absolute top-0 inset-x-0 z-20 pointer-events-none w-full overflow-hidden leading-none">
+          <svg
+            viewBox="0 0 1440 70"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-8 sm:h-14 md:h-18 text-ivory block"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M0,0 L1440,0 L1440,25 C1180,65 920,8 680,40 C440,70 200,12 0,42 Z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
+
         <div ref={visualRef} data-feature-visual className="absolute inset-0">
           <div data-parallax className="absolute inset-x-0 -top-[8%] h-[116%]">
             <img

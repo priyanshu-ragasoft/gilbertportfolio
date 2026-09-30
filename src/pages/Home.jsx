@@ -14,6 +14,7 @@ import Journey from '../sections/Journey'
 import Philosophy from '../sections/Philosophy'
 import Projects from '../sections/Projects'
 import Values from '../sections/Values'
+import LivingTestimony from '../sections/LivingTestimony'
 
 /**
  * Chunk reveals live inside each section via <ScrollReveal>:
@@ -76,6 +77,7 @@ export default function Home() {
       <Projects />
       <ImageRevealExamples />
       <FeaturedStory />
+      <LivingTestimony />
       <Gallery />
       <Education />
       <Blog limit={3} />

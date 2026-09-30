@@ -7,6 +7,8 @@ import employmentInitiative from '../assets/images/kwizera-humanitarian-employme
 import hotelEntrance from '../assets/images/gilbert-kwizera-hotel-entrance.jpg'
 import sanjayDutt from '../assets/images/gilbert-kwizera-sanjay-dutt.jpg'
 import marinaYacht from '../assets/images/gilbert-kwizera-dubai-marina-yacht.jpg'
+import jack1 from '../assets/images/jack1.jpg'
+import jack2 from '../assets/images/jack2.jpg'
 
 export const projects = [
   {
@@ -56,6 +58,36 @@ export const projects = [
       {
         src: institute,
         alt: 'Uganda Cancer Institute, where specialised cancer treatment is centred in Kampala',
+      },
+    ],
+  },
+  {
+    slug: 'living-testimony-apple-jackie',
+    title: 'Living Testimony: Apple Jackie',
+    category: 'Cancer care & Hope',
+    date: '2010–Present',
+    image: jack1,
+    imageAlt: 'Apple Jackie, 58-year-old cervical cancer survivor and living testimony of hope',
+    summary:
+      'Diagnosed with cervical cancer in 2010, Apple Jackie found a lifeline through Mr. Jimmy and the Cancer Charity Foundation (CCF), receiving prompt treatment at Nsambya Hospital and achieving full recovery.',
+    paragraphs: [
+      'My name is Apple Jackie. I am 58 years old, married to Godfrey Ikoro, and blessed with four children.',
+      'In 2010, I began experiencing unusual bleeding. At first, I did not take it seriously because I thought it might be related to my menstrual cycle. However, the bleeding continued, including at times when I was not on my period.',
+      'Concerned about my health, I went to the hospital and explained my symptoms to the doctors. They advised me to undergo tests for cancer and referred me to a specialist. Samples were taken for testing, and after two days, I returned to receive my results. I was told that the tests indicated cervical cancer.',
+      'I shared the news with my family, and they encouraged me to seek further confirmation. I underwent another test in Kampala, which produced the same results. I later went to Mulago Hospital for further testing, and once again, the results confirmed the diagnosis.',
+      'At that point, my family and I were deeply concerned about what the future would hold. Fortunately, someone I knew through work was connected to Mr. Jimmy, and my situation was brought to his attention. Through his Cancer Charity Foundation (CCF), I was connected to the support and medical care I needed.',
+      'The foundation helped me with the necessary medical tests and treatment at Nsambya Hospital. I received treatment for seven days, and because the cancer was detected at an early stage, I was able to recover.',
+      'Today, I stand as a living testimony of hope, early treatment, and compassionate support. I am deeply grateful to Mr. Jimmy and the Cancer Charity Foundation for standing with me during one of the most difficult moments of my life. Their support gave me access to the medical care I needed when I was facing a frightening diagnosis. I thank the Cancer Charity Foundation sincerely for helping me through that difficult journey and giving me the opportunity to continue living and caring for my family.',
+    ],
+    tags: ['Living Testimony', 'Cancer Care', 'CCF Foundation', 'Survivor Story'],
+    gallery: [
+      {
+        src: jack1,
+        alt: 'Apple Jackie portrait, smiling with warmth and gratitude',
+      },
+      {
+        src: jack2,
+        alt: 'Apple Jackie standing full view, living testimony of cancer recovery',
       },
     ],
   },

@@ -126,13 +126,13 @@ export default function Gallery({ hideTopHeader = false, className = '' }) {
         )}
 
         {/* Filter categories */}
-        <div className={`flex flex-wrap items-center gap-2 border-b border-white/10 pb-6 ${hideTopHeader ? 'mt-0' : 'mt-12'}`}>
+        <div className={`flex items-center gap-2 overflow-x-auto pb-4 pt-1 md:pb-6 scrollbar-none snap-x md:flex-wrap border-b border-white/10 ${hideTopHeader ? 'mt-0' : 'mt-12'}`}>
           {galleryCategories.map((cat) => (
             <button
               key={cat}
               type="button"
               onClick={() => setActiveCategory(cat)}
-              className={`cursor-pointer rounded-full px-5 py-2 text-xs font-medium tracking-[0.16em] uppercase transition-all duration-300 ${
+              className={`shrink-0 cursor-pointer rounded-full px-4 sm:px-5 py-2 text-xs font-medium tracking-[0.14em] uppercase transition-all duration-300 snap-start whitespace-nowrap ${
                 activeCategory === cat
                   ? 'bg-[#C9A15A] text-[#0D0D0C] shadow-[0_0_20px_rgba(201,161,90,0.35)]'
                   : 'border border-white/15 bg-white/5 text-paper/70 hover:border-[#C9A15A]/60 hover:text-paper'
