@@ -170,25 +170,26 @@ export default function Contact({ standalone = false }) {
         </div>
 
         {/* Main Grid: 3D Interactive Card + Form */}
-        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-12">
+        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-12 w-full max-w-full min-w-0">
           {/* Left Column: 3D Interactive Dubai HQ Showcase */}
-          <div className="flex flex-col gap-6 lg:col-span-5 max-w-lg mx-auto lg:max-w-none w-full">
+          <div className="flex flex-col gap-6 lg:col-span-5 max-w-lg mx-auto lg:max-w-none w-full min-w-0">
             <div
               ref={cardRef}
               onMouseMove={handleCardMouseMove}
               onMouseLeave={handleCardMouseLeave}
               style={{ transition: 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)' }}
-              className="relative overflow-hidden rounded-2xl border border-line/80 bg-ivory/90 shadow-[0_20px_50px_-20px_rgba(23,21,19,0.12)] backdrop-blur-xl"
+              className="relative overflow-hidden rounded-2xl border border-line/80 bg-ivory/90 shadow-[0_20px_50px_-20px_rgba(23,21,19,0.12)] backdrop-blur-xl w-full min-w-0"
             >
               {/* Card Top Bar with View Toggles — Single Row Layout */}
-              <div className="flex items-center justify-between gap-1.5 sm:gap-2 border-b border-line/70 px-3 sm:px-5 py-2.5 sm:py-3.5 flex-nowrap overflow-hidden">
+              <div className="flex items-center justify-between gap-1.5 sm:gap-2 border-b border-line/70 px-3 sm:px-5 py-2.5 sm:py-3.5 min-w-0">
                 <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                   <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5 shrink-0">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-emerald-500" />
                   </span>
                   <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-ink shrink-0">
-                    Headquarters
+                    <span className="hidden xs:inline">Headquarters</span>
+                    <span className="xs:hidden">HQ</span>
                   </span>
                 </div>
 
@@ -200,7 +201,8 @@ export default function Contact({ standalone = false }) {
                       }`}
                   >
                     <Globe className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
-                    <span>3D Globe</span>
+                    <span className="hidden xs:inline">3D Globe</span>
+                    <span className="xs:hidden">3D</span>
                   </button>
                   <button
                     type="button"
@@ -209,7 +211,8 @@ export default function Contact({ standalone = false }) {
                       }`}
                   >
                     <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
-                    <span>Map View</span>
+                    <span className="hidden xs:inline">Map View</span>
+                    <span className="xs:hidden">Map</span>
                   </button>
                   <button
                     type="button"
@@ -379,7 +382,7 @@ export default function Contact({ standalone = false }) {
           </div>
 
           {/* Right Column: 3D-styled Glass Form Card */}
-          <div className="relative rounded-2xl border border-line/80 bg-ivory/80 p-4 sm:p-8 md:p-10 shadow-[0_20px_50px_-20px_rgba(23,21,19,0.1)] backdrop-blur-xl lg:col-span-7">
+          <div className="relative rounded-2xl border border-line/80 bg-ivory/80 p-4 sm:p-8 md:p-10 shadow-[0_20px_50px_-20px_rgba(23,21,19,0.1)] backdrop-blur-xl lg:col-span-7 w-full min-w-0 max-w-full overflow-hidden">
             {sent ? (
               <div id="contact-thanks" className="flex flex-col items-center py-12 text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-bronze/15 text-bronze">
@@ -397,13 +400,13 @@ export default function Contact({ standalone = false }) {
                 </div>
               </div>
             ) : (
-              <form onSubmit={onSubmit} noValidate className="space-y-6">
+              <form onSubmit={onSubmit} noValidate className="space-y-6 w-full min-w-0 max-w-full">
                 {/* Topic Selector Chips */}
-                <div>
+                <div className="w-full min-w-0">
                   <label className="mb-2.5 block text-xs font-semibold uppercase tracking-[0.16em] text-muted">
                     Inquiry Topic
                   </label>
-                  <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none sm:flex-wrap sm:overflow-visible sm:pb-0">
+                  <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none sm:flex-wrap sm:overflow-visible sm:pb-0 w-full min-w-0">
                     {TOPICS.map((topic) => {
                       const selected = values.topic === topic
                       return (
