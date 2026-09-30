@@ -182,14 +182,14 @@ export default function AppleJackieTestimony() {
                 <img
                   src={jack1}
                   alt="Apple Jackie, cancer survivor"
-                  className="h-full w-full object-cover object-center grayscale contrast-110 brightness-95 transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-0"
+                  className="h-full w-full object-cover object-[center_12%] grayscale contrast-110 brightness-95 transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-0"
                 />
 
                 {/* Photo 2 (Hover: Full Color Standing Photograph) */}
                 <img
                   src={jack2}
                   alt="Apple Jackie standing in good health"
-                  className="absolute inset-0 h-full w-full object-cover object-center grayscale contrast-110 opacity-0 transition-all duration-700 ease-out group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105"
+                  className="absolute inset-0 h-full w-full object-cover object-[center_top] grayscale contrast-110 opacity-0 transition-all duration-700 ease-out group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105"
                 />
 
                 {/* Ambient Dark Gradient Overlay */}

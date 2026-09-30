@@ -84,10 +84,16 @@ export const projects = [
       {
         src: jack1,
         alt: 'Apple Jackie portrait, smiling with warmth and gratitude',
+        position: 'center top',
+        className: 'aspect-[3/4]',
+        parallax: false,
       },
       {
         src: jack2,
         alt: 'Apple Jackie standing full view, living testimony of cancer recovery',
+        position: 'center top',
+        className: 'aspect-[3/4]',
+        parallax: false,
       },
     ],
   },

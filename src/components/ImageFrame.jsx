@@ -57,7 +57,7 @@ export default function ImageFrame({
       ) : (
         <div
           data-parallax={parallax ? '' : undefined}
-          className="absolute inset-x-0 -top-[12%] h-[124%]"
+          className={parallax ? 'absolute inset-x-0 -top-[12%] h-[124%]' : 'absolute inset-0 h-full w-full'}
         >
           <div data-image-zoom className="h-full w-full origin-center">
             <img

@@ -502,11 +502,11 @@ export default function Contact({ standalone = false }) {
                   <button
                     type="submit"
                     data-submit
-                    className="group relative inline-flex items-center gap-3 rounded-full bg-bronze px-7 py-3.5 text-sm font-medium tracking-wide text-paper shadow-[0_8px_25px_rgba(141,112,67,0.35)] transition-all duration-300 hover:scale-[1.03] hover:bg-ink hover:shadow-[0_8px_25px_rgba(23,21,19,0.4)]"
+                    className="group relative inline-flex shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-full bg-bronze px-6 sm:px-7 py-3.5 text-sm font-medium tracking-wide text-paper shadow-[0_8px_25px_rgba(141,112,67,0.35)] transition-all duration-300 hover:scale-[1.03] hover:bg-ink hover:shadow-[0_8px_25px_rgba(23,21,19,0.4)]"
                   >
-                    <span>Transmit Message</span>
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-paper transition-all duration-300 group-hover:bg-paper group-hover:text-ink group-hover:rotate-45">
-                      <Send className="h-3.5 w-3.5" />
+                    <span className="whitespace-nowrap">Transmit Message</span>
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 text-paper transition-all duration-300 group-hover:bg-paper group-hover:text-ink group-hover:rotate-45">
+                      <Send className="h-3.5 w-3.5 shrink-0" />
                     </span>
                   </button>
                 </div>

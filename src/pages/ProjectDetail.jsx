@@ -40,9 +40,9 @@ export default function ProjectDetail() {
               src={project.image}
               alt={project.imageAlt}
               fit={project.imageFit || 'cover'}
-              parallax={project.imageFit !== 'contain'}
-              position={project.imageFit === 'contain' ? 'center' : undefined}
-              className={project.imageFit === 'contain' ? 'aspect-[3/2]' : 'aspect-[16/9]'}
+              parallax={project.imageParallax ?? (project.imageFit !== 'contain')}
+              position={project.imagePosition || (project.imageFit === 'contain' ? 'center' : 'center 12%')}
+              className={project.imageClassName || (project.imageFit === 'contain' ? 'aspect-[3/2]' : 'aspect-[16/9]')}
               priority
             />
           </div>
@@ -63,9 +63,17 @@ export default function ProjectDetail() {
             </ScrollReveal>
           </div>
           {project.gallery?.length ? (
-            <div className="mt-12 grid gap-5 md:grid-cols-2">
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 items-start">
               {project.gallery.map((image) => (
-                <ImageFrame key={image.src} src={image.src} alt={image.alt} className="aspect-[4/3]" />
+                <ImageFrame
+                  key={image.src}
+                  src={image.src}
+                  alt={image.alt}
+                  fit={image.fit || 'cover'}
+                  parallax={image.parallax ?? false}
+                  position={image.position || 'center top'}
+                  className={image.className || 'aspect-[4/3]'}
+                />
               ))}
             </div>
           ) : null}
