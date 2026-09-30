@@ -379,7 +379,7 @@ export default function Contact({ standalone = false }) {
           </div>
 
           {/* Right Column: 3D-styled Glass Form Card */}
-          <div className="relative rounded-2xl border border-line/80 bg-ivory/80 p-6 shadow-[0_20px_50px_-20px_rgba(23,21,19,0.1)] backdrop-blur-xl sm:p-10 lg:col-span-7">
+          <div className="relative rounded-2xl border border-line/80 bg-ivory/80 p-4 sm:p-8 md:p-10 shadow-[0_20px_50px_-20px_rgba(23,21,19,0.1)] backdrop-blur-xl lg:col-span-7">
             {sent ? (
               <div id="contact-thanks" className="flex flex-col items-center py-12 text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-bronze/15 text-bronze">
@@ -403,7 +403,7 @@ export default function Contact({ standalone = false }) {
                   <label className="mb-2.5 block text-xs font-semibold uppercase tracking-[0.16em] text-muted">
                     Inquiry Topic
                   </label>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none sm:flex-wrap sm:overflow-visible sm:pb-0">
                     {TOPICS.map((topic) => {
                       const selected = values.topic === topic
                       return (
@@ -411,7 +411,7 @@ export default function Contact({ standalone = false }) {
                           key={topic}
                           type="button"
                           onClick={() => selectTopic(topic)}
-                          className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-all duration-300 ${selected
+                          className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-medium transition-all duration-300 ${selected
                             ? 'bg-bronze text-paper shadow-[0_4px_14px_rgba(141,112,67,0.35)] scale-[1.02]'
                             : 'border border-line bg-paper/80 text-muted hover:border-bronze hover:text-ink'
                             }`}
