@@ -9,6 +9,8 @@ import sanjayDutt from '../assets/images/gilbert-kwizera-sanjay-dutt.jpg'
 import marinaYacht from '../assets/images/gilbert-kwizera-dubai-marina-yacht.jpg'
 import jack1 from '../assets/images/jack1.jpg'
 import jack2 from '../assets/images/jack2.jpg'
+import paImage from '../assets/images/pa.jpeg'
+import peImage from '../assets/images/pe.jpeg'
 
 export const projects = [
   {
@@ -58,6 +60,49 @@ export const projects = [
       {
         src: institute,
         alt: 'Uganda Cancer Institute, where specialised cancer treatment is centred in Kampala',
+      },
+    ],
+  },
+  {
+    slug: 'living-testimony-gladys-nsereko',
+    title: 'Living Testimony: Mrs. Gladys Nsereko',
+    category: 'Cancer care & Hope',
+    date: '2009–Present',
+    image: paImage,
+    imageAlt: 'Mrs. Gladys Nsereko, 70-year-old breast cancer survivor and living testimony of hope',
+    summary:
+      'Diagnosed with Stage 2 breast cancer in 2009, Mrs. Gladys Nsereko received critical medication support for 6 cycles of chemotherapy from Mr. Jimmy and CCF, achieving full remission and celebrating 70 years of life.',
+    paragraphs: [
+      'My name is Gladys Nsereko and I turned 70 years old on September 5th. My journey with breast cancer began in 2009, when I discovered something unusual in my right breast.',
+      'At the time, I had heard health programs on the radio advising women to regularly check their breasts for any unusual lumps or changes. One day, while bathing, I followed that advice and examined my right breast. When I pressed the nipple, I noticed an unusual discharge mixed with blood. I was frightened even though I did not feel any lump or pain.',
+      'I immediately went to Nsambya Hospital and explained what had happened to the doctor. After examining me, the doctors recommended further tests, including a biopsy. The results confirmed that I had breast cancer, which was at Stage 2.',
+      'The doctors advised that the affected breast needed to be removed because they were concerned that the cancer could spread. I underwent surgery and after recovering, I was told that I needed chemotherapy.',
+      'At that time, chemotherapy was not available at Nsambya Hospital, so I was referred to Mulago Hospital. I underwent six cycles of chemotherapy, receiving one cycle each month. The treatment was difficult and there were times when I became very weak and could not move around on my own.',
+      'After completing chemotherapy, I developed severe back pain and was advised to undergo radiotherapy. I subsequently received six sessions of radiotherapy.',
+      'During this difficult period, Mr. Jimmy became involved in my care after learning about my situation through Bishop Paul Ssemogerere. He offered to support me with the cost of the medicines I needed during my chemotherapy treatment. Because I was too weak to travel myself, my daughter would go to his office to collect the money needed to purchase my medication.',
+      'For all six cycles of chemotherapy, Mr. Jimmy continued supporting me with the cost of my medicines. His assistance made a significant difference to me and my family at a time when the financial burden of cancer treatment was overwhelming.',
+      'After completing my treatment, I continued going for regular medical check-ups. In around 2013, doctors became concerned that there might be a recurrence affecting my bones and placed me on additional medication and chemotherapy. I was also advised to undergo a PET scan, which was not available in Uganda at the time.',
+      'With the help of my son, I was able to get an appointment at Aga Khan Hospital in Nairobi, where I underwent the scan. Later, I also had another PET scan abroad. The results indicated that I did not have cancer at that time.',
+      'Today, I continue to monitor my health and attend medical check-ups. I still experience some back pain, and I know that continuing to take care of my health and following up with doctors is important.',
+      'Looking back, I am grateful that I noticed the unusual change in my breast and sought medical attention immediately. I am also grateful for the support I received during one of the most difficult periods of my life.',
+      'I may not remember whether Mr. Jimmy was supporting me personally or through the Cancer Charity Foundation at that time, but what I remember clearly is that he was the person who came forward to help me when I needed support the most. His assistance with my medication helped me continue with my treatment when the cost of cancer care was a major challenge for my family.',
+      'My story is a reminder of the importance of paying attention to changes in your body, seeking medical attention early, and ensuring that people facing cancer are not left alone because they cannot afford the treatment and medicines they need.',
+    ],
+    tags: ['Living Testimony', 'Breast Cancer', 'CCF Foundation', 'Survivor Story'],
+    gallery: [
+      {
+        src: paImage,
+        alt: 'Mrs. Gladys Nsereko portrait, smiling with warmth and gratitude',
+        position: 'center top',
+        className: 'aspect-[3/4]',
+        parallax: false,
+      },
+      {
+        src: peImage,
+        alt: 'Mrs. Gladys Nsereko standing full view, living testimony of recovery',
+        position: 'center top',
+        className: 'aspect-[3/4]',
+        parallax: false,
       },
     ],
   },

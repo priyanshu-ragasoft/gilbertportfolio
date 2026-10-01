@@ -143,7 +143,7 @@ export default function AppleJackieTestimony() {
   }, [isAutoPlay, isHovered, activeSlide])
 
   return (
-    <section className="bg-ink text-paper py-20 md:py-28 border-t border-white/10 overflow-hidden">
+    <div className="text-paper">
       <style>{`
         @keyframes runningBar {
           0% {
@@ -154,7 +154,7 @@ export default function AppleJackieTestimony() {
           }
         }
       `}</style>
-      <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
+      <div>
         {/* Centered Header */}
         <div className="text-center max-w-3xl mx-auto">
           <ScrollReveal type="text" as="div" className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-amber-300 backdrop-blur-md">
@@ -475,6 +475,6 @@ export default function AppleJackieTestimony() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
