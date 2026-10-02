@@ -1,10 +1,12 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { connectDB } from './config/db.js'
 import { errorHandler } from './middlewares/errorMiddleware.js'
+import { serveStoredUpload } from './middlewares/uploadMiddleware.js'
 import User from './models/User.js'
 import Blog from './models/Blog.js'
 
@@ -37,6 +39,7 @@ const __dirname = path.dirname(__filename)
 
 // Initialize Express App
 const app = express()
+app.set('trust proxy', 1)
 
 let adminSeeded = false
 const ensureAdminAndDB = async () => {
@@ -78,8 +81,12 @@ app.use(
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 
-// Static folder for uploaded images
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+// GridFS uploads (Vercel) fall through to the local uploads folder in development
+app.use('/uploads', serveStoredUpload)
+const uploadsPath = path.join(__dirname, 'uploads')
+if (fs.existsSync(uploadsPath)) {
+  app.use('/uploads', express.static(uploadsPath))
+}
 
 // Serverless DB Connection & Initialization Middleware
 app.use(async (req, res, next) => {
