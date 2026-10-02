@@ -344,7 +344,7 @@ export default function GalleryManager() {
       </div>
 
       {/* Sub-Navigation Tabs */}
-      <div className="flex items-center gap-2 border-b border-white/10 pb-4">
+      <div className="flex flex-wrap items-center gap-2 border-b border-white/10 pb-4">
         <button
           type="button"
           onClick={() => setActiveTab('items')}

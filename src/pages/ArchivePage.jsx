@@ -55,7 +55,7 @@ export default function ArchivePage() {
               <p data-listing-kicker className="text-xs font-semibold uppercase tracking-[0.24em] text-[#C9A15A]">
                 Photographic Archive
               </p>
-              <ScrollReveal type="text" as="h1" data-listing-title className="display mt-4 max-w-3xl text-4xl text-paper sm:text-6xl lg:text-7xl">
+              <ScrollReveal type="text" as="h1" data-listing-title className="display mt-4 max-w-3xl break-words text-[clamp(2rem,8vw,4.5rem)] leading-[1.05] text-paper">
                 Moments of Service &amp; Leadership
               </ScrollReveal>
               <ScrollReveal type="block" data-listing-lede className="mt-4 max-w-2xl">

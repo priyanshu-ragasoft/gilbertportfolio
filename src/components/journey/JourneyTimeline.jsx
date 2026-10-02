@@ -103,8 +103,9 @@ export default function JourneyTimeline({ orientation = 'horizontal', chapters }
   return (
     <nav
       aria-label="Journey timeline"
-      className="relative w-full px-1 pt-2 pb-1 sm:px-2 sm:pt-2.5 sm:pb-1.5 select-none"
+      className="relative w-full overflow-x-auto px-1 pt-2 pb-1 sm:px-2 sm:pt-2.5 sm:pb-1.5 select-none"
     >
+      <div className="relative min-w-[34rem] sm:min-w-full">
       {/* Background Ambient SVG Wave Track */}
       <svg
         className="pointer-events-none absolute inset-x-2 top-0 h-10 w-[calc(100%-1rem)] sm:inset-x-4 sm:h-12 sm:w-[calc(100%-2rem)]"
@@ -221,6 +222,7 @@ export default function JourneyTimeline({ orientation = 'horizontal', chapters }
           </li>
         ))}
       </ol>
+      </div>
     </nav>
   )
 }

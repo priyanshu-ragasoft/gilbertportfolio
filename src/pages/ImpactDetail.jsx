@@ -30,7 +30,7 @@ export default function ImpactDetail() {
           <p data-detail="meta" className="text-xs font-medium uppercase tracking-[0.2em] text-bronze">
             {area.number}
           </p>
-          <ScrollReveal type="text" as="h1" data-detail="title" className="display mt-3 max-w-4xl text-5xl text-ink sm:text-7xl">
+          <ScrollReveal type="text" as="h1" data-detail="title" className="display mt-3 max-w-4xl break-words text-[clamp(2rem,8vw,4.5rem)] leading-[1.05] text-ink">
             {area.title}
           </ScrollReveal>
           <ScrollReveal type="block" stagger={0.1}>

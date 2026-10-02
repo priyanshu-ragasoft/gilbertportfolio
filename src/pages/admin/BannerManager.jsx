@@ -458,12 +458,12 @@ export default function BannerManager() {
 
               {/* Preset Image Picker Quick Buttons */}
               <div className="pt-2 border-t border-white/5 space-y-2">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                   <span className="block text-[0.68rem] text-mist/70 uppercase tracking-wider font-semibold">
                     Available Portrait Presets:
                   </span>
                   <span className="text-[0.62rem] text-[#C9A15A] font-medium">
-                    (Click or Double-Tap to Select / Deselect)
+                    Tap to select or remove
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">

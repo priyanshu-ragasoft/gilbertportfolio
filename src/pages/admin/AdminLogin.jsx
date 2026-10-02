@@ -60,7 +60,7 @@ export default function AdminLogin() {
         {/* Glow laser line */}
         <div className="mx-auto h-0.5 w-3/4 bg-gradient-to-r from-transparent via-[#C9A15A] to-transparent opacity-80" />
 
-        <div className="rounded-3xl border border-white/10 bg-[#14120e]/85 p-8 sm:p-10 shadow-2xl backdrop-blur-2xl">
+        <div className="rounded-3xl border border-white/10 bg-[#14120e]/85 p-5 sm:p-10 shadow-2xl backdrop-blur-2xl">
           {/* Logo & Header */}
           <div className="text-center">
             <Link to="/" className="inline-block transition-transform hover:scale-105">
@@ -68,7 +68,7 @@ export default function AdminLogin() {
             </Link>
             <div className="mt-6 flex items-center justify-center gap-2">
               <span className="h-px w-6 bg-[#C9A15A]" />
-              <span className="text-[0.68rem] font-semibold tracking-[0.25em] text-[#C9A15A] uppercase">
+              <span className="text-[0.62rem] font-semibold tracking-[0.12em] text-[#C9A15A] uppercase sm:text-[0.68rem] sm:tracking-[0.25em]">
                 Secure Executive Portal
               </span>
               <span className="h-px w-6 bg-[#C9A15A]" />

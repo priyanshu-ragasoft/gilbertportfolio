@@ -82,7 +82,7 @@ export default function Education() {
             <span className="h-px w-8 bg-bronze" aria-hidden="true" />
             {eduData.eyebrow || 'Knowledge'}
           </p>
-          <ScrollReveal type="text" as="h2" className="display mt-4 text-4xl text-ink sm:text-6xl">
+          <ScrollReveal type="text" as="h2" className="display mt-4 break-words text-[clamp(1.85rem,7vw,3.75rem)] leading-[1.08] text-ink">
             {eduData.title || 'Education as a Tool for Service'}
           </ScrollReveal>
           <ScrollReveal type="block" stagger={0.1} data-edu-copy className="mt-6 space-y-4 text-base leading-relaxed text-muted">

@@ -95,7 +95,7 @@ export default function About() {
           <ScrollReveal
             type="text"
             as="h2"
-            className="display mt-4 text-4xl text-ink sm:text-5xl md:text-6xl"
+            className="display mt-4 break-words text-[clamp(1.85rem,7vw,3.75rem)] leading-[1.08] text-ink"
           >
             {data.headline || 'Who is Gilbert Kevin Jimmy Kwizera?'}
           </ScrollReveal>

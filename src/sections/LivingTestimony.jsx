@@ -149,7 +149,7 @@ export default function LivingTestimony() {
           <ScrollReveal
             type="text"
             as="h2"
-            className="display mt-4 text-3xl sm:text-5xl md:text-6xl text-paper"
+            className="display mt-4 break-words text-[clamp(1.75rem,7vw,3.75rem)] leading-[1.08] text-paper"
           >
             {data.title || 'Stories of Strength & Survival'}
           </ScrollReveal>

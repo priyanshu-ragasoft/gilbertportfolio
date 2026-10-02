@@ -77,13 +77,47 @@
   .admin-shell input,
   .admin-shell select,
   .admin-shell textarea,
-  .admin-shell img {
+  .admin-shell img,
+  .admin-shell video {
     max-width: 100%;
+  }
+
+  .display {
+    overflow-wrap: anywhere;
   }
 
   @media (max-width: 639px) {
     .admin-shell .whitespace-nowrap {
       white-space: normal;
+    }
+
+    .admin-shell main .flex.shrink-0 {
+      width: 100%;
+    }
+
+    .admin-shell main .flex.shrink-0 > button,
+    .admin-shell main .flex.shrink-0 > a,
+    .admin-shell main .flex.shrink-0 > label {
+      width: 100%;
+    }
+
+    .admin-shell main .flex.items-center.justify-between,
+    .admin-shell main .flex.items-center.gap-2 {
+      flex-wrap: wrap;
+      row-gap: 0.5rem;
+    }
+
+    .admin-shell .fixed.bottom-6,
+    .admin-shell .fixed.right-6 {
+      left: 0.75rem;
+      right: 0.75rem;
+      max-width: calc(100vw - 1.5rem);
+    }
+
+    .admin-shell table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
     }
   }
 
