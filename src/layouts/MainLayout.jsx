@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation, Navigate } from 'react-router-dom'
 import { gsap } from '../animations/gsapConfig'
 import Cursor from '../components/Cursor'
 import Footer from '../components/Footer'
@@ -7,6 +7,24 @@ import Navbar from '../components/Navbar'
 import PageMotion from '../components/PageMotion'
 import Preloader3D from '../components/Preloader3D'
 import FloatingChatbot from '../components/Chatbot/FloatingChatbot'
+import ProtectedRoute from '../components/admin/ProtectedRoute'
+import AdminLayout from '../pages/admin/AdminLayout'
+import AdminDashboard from '../pages/admin/AdminDashboard'
+import BannerManager from '../pages/admin/BannerManager'
+import IntroManager from '../pages/admin/IntroManager'
+import AboutManager from '../pages/admin/AboutManager'
+import ImpactManager from '../pages/admin/ImpactManager'
+import ProjectManager from '../pages/admin/ProjectManager'
+import FeaturedStoryManager from '../pages/admin/FeaturedStoryManager'
+import TestimoniesManager from '../pages/admin/TestimoniesManager'
+import GalleryManager from '../pages/admin/GalleryManager'
+import EducationManager from '../pages/admin/EducationManager'
+import PhilosophyManager from '../pages/admin/PhilosophyManager'
+import BlogManager from '../pages/admin/BlogManager'
+import InquiryManager from '../pages/admin/InquiryManager'
+import SettingsManager from '../pages/admin/SettingsManager'
+import JourneyManager from '../pages/admin/JourneyManager'
+import AdminLogin from '../pages/admin/AdminLogin'
 import { lenis, useLenis } from '../hooks/useLenis'
 import Home from '../pages/Home'
 
@@ -49,7 +67,18 @@ export default function MainLayout() {
   const location = useLocation()
   const mainRef = useRef(null)
   const first = useRef(true)
+  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/login'
+
   useLenis()
+
+  useEffect(() => {
+    if (isAdminRoute) {
+      document.documentElement.classList.remove('is-intro')
+      document.documentElement.style.overflow = 'auto'
+      document.body.style.overflow = 'auto'
+      document.body.style.height = 'auto'
+    }
+  }, [isAdminRoute])
 
   useEffect(() => {
     if (location.hash) {
@@ -72,7 +101,6 @@ export default function MainLayout() {
       const timer = setTimeout(tryScroll, 60)
       return () => clearTimeout(timer)
     } else {
-      // When navigating to a new page without hash, always reset scroll immediately to top
       if (lenis) {
         lenis.scrollTo(0, { immediate: true })
       }
@@ -84,6 +112,43 @@ export default function MainLayout() {
     if (mainRef.current) gsap.set(mainRef.current, { autoAlpha: 1 })
   }, [location.pathname])
 
+  // Dedicated View for Admin Login and Admin Management Panel
+  if (isAdminRoute) {
+    return (
+      <Routes location={location}>
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/login" element={<AdminLogin />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="banner" element={<BannerManager />} />
+          <Route path="intro" element={<IntroManager />} />
+          <Route path="about" element={<AboutManager />} />
+          <Route path="impact" element={<ImpactManager />} />
+          <Route path="projects" element={<ProjectManager />} />
+          <Route path="featured-story" element={<FeaturedStoryManager />} />
+          <Route path="testimonies" element={<TestimoniesManager />} />
+          <Route path="gallery" element={<GalleryManager />} />
+          <Route path="education" element={<EducationManager />} />
+          <Route path="philosophy" element={<PhilosophyManager />} />
+          <Route path="blogs" element={<BlogManager />} />
+          <Route path="blogs/new" element={<BlogManager />} />
+          <Route path="inquiries" element={<InquiryManager />} />
+          <Route path="journey" element={<JourneyManager />} />
+          <Route path="settings" element={<SettingsManager />} />
+          <Route path="*" element={<Navigate to="/admin" replace />} />
+        </Route>
+      </Routes>
+    )
+  }
+
+  // Standard Public Portfolio View
   return (
     <>
       <Preloader3D />
@@ -95,29 +160,31 @@ export default function MainLayout() {
       </a>
       <Cursor />
       <div className="flex min-h-svh flex-col">
-      <Navbar />
-      <main id="main" ref={mainRef} tabIndex={-1} className="relative z-[1] flex-1 outline-none">
-        <div data-motion-root>
-          <PageMotion key={location.pathname} />
-          <Suspense fallback={<PageFallback />}>
-            <Routes location={location}>
-              <Route index element={<Home />} />
-              <Route path="about" element={<AboutPage />} />
-              <Route path="projects" element={<ProjectsPage />} />
-              <Route path="projects/:slug" element={<ProjectDetail />} />
-              <Route path="archive" element={<ArchivePage />} />
-              <Route path="insights" element={<BlogPage />} />
-              <Route path="insights/:slug" element={<InsightDetail />} />
-              <Route path="impact/:slug" element={<ImpactDetail />} />
-              <Route path="contact" element={<ContactPage />} />
-              <Route path="privacy" element={<PrivacyPolicy />} />
-              <Route path="terms" element={<TermsConditions />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </div>
-      </main>
-      <Footer />
+        <Navbar />
+        <main id="main" ref={mainRef} tabIndex={-1} className="relative z-[1] flex-1 outline-none">
+          <div data-motion-root>
+            <PageMotion key={location.pathname} />
+            <Suspense fallback={<PageFallback />}>
+              <Routes location={location}>
+                <Route index element={<Home />} />
+                <Route path="about" element={<AboutPage />} />
+                <Route path="projects" element={<ProjectsPage />} />
+                <Route path="projects/:slug" element={<ProjectDetail />} />
+                <Route path="archive" element={<ArchivePage />} />
+                <Route path="blog" element={<BlogPage />} />
+                <Route path="blog/:slug" element={<InsightDetail />} />
+                <Route path="insights" element={<BlogPage />} />
+                <Route path="insights/:slug" element={<InsightDetail />} />
+                <Route path="impact/:slug" element={<ImpactDetail />} />
+                <Route path="contact" element={<ContactPage />} />
+                <Route path="privacy" element={<PrivacyPolicy />} />
+                <Route path="terms" element={<TermsConditions />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </div>
+        </main>
+        <Footer />
       </div>
       <FloatingChatbot />
     </>

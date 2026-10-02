@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUp, ArrowUpRight, Mail, MapPin, Phone, ShieldCheck, HeartHandshake } from 'lucide-react'
-import { navLinks, profile, socials } from '../data/profile'
+import { footerLinks, profile, socials } from '../data/profile'
+import { settingsAPI } from '../services/api'
 import Logo from './Logo'
 import ScrollReveal from './ScrollReveal'
 import { lenis } from '../hooks/useLenis'
@@ -35,6 +37,56 @@ const socialIcons = {
 }
 
 export default function Footer() {
+  const [siteSettings, setSiteSettings] = useState(() => {
+    try {
+      const cached = localStorage.getItem('gilbert_cached_settings')
+      if (cached) return JSON.parse(cached)
+    } catch (e) {
+      // ignore
+    }
+    return {
+      footerCornerImage: '',
+      footerWatermarkOpacity: 18,
+      footerLogo: '',
+      footerTagline:
+        'Dedicated to dignity-based care, ethical resource stewardship, and sustainable social systems across East Africa and the Middle East.',
+      officeAddress: profile.location,
+      contactPhone: profile.phone,
+      contactEmail: profile.email,
+      quoteText: 'When you choose to help others up, you help people rise as well.',
+      quoteAuthor: 'Core Leadership Principle',
+      copyrightText: `© 2026 ${profile.name}. All rights reserved.`,
+    }
+  })
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const res = await settingsAPI.getSettings()
+        if (res.success && res.data) {
+          setSiteSettings(res.data)
+          localStorage.setItem('gilbert_cached_settings', JSON.stringify(res.data))
+        }
+      } catch (err) {
+        console.warn('Footer settings backend notice:', err.message)
+      }
+    }
+
+    loadSettings()
+
+    const handleUpdate = (e) => {
+      if (e.detail) {
+        setSiteSettings((prev) => ({
+          ...prev,
+          ...e.detail,
+        }))
+      }
+    }
+
+    window.addEventListener('gilbert_settings_updated', handleUpdate)
+    return () => window.removeEventListener('gilbert_settings_updated', handleUpdate)
+  }, [])
+
   const handleScrollTop = () => {
     if (lenis) {
       lenis.scrollTo(0, { duration: 1.1 })
@@ -78,10 +130,25 @@ export default function Footer() {
         aria-hidden="true"
       />
 
-      {/* Top Executive Horizon Bar */}
+      {/* Luxury Background Shaded Watermark / Brand Graphic (Bleeding into dark background) */}
+      {siteSettings.showFooterCornerImage !== false && siteSettings.footerCornerImage && (
+        <div
+          className="pointer-events-none absolute right-0 bottom-0 z-0 flex items-end justify-end overflow-hidden max-w-[60vw] max-h-[95%] select-none"
+          aria-hidden="true"
+        >
+          <img
+            src={siteSettings.footerCornerImage}
+            alt=""
+            style={{
+              opacity: (siteSettings.footerWatermarkOpacity ?? 18) / 100,
+            }}
+            className="w-auto h-auto max-h-[280px] sm:max-h-[380px] md:max-h-[480px] lg:max-h-[540px] max-w-[340px] sm:max-w-[500px] md:max-w-[640px] object-contain object-right-bottom translate-x-6 translate-y-6 sm:translate-x-10 sm:translate-y-8 filter brightness-110 contrast-125 transition-opacity duration-500"
+          />
+        </div>
+      )}
 
       {/* Main Architectural Grid */}
-      <ScrollReveal type="block" stagger={0.08} className="mx-auto grid max-w-[1180px] gap-12 px-5 py-16 sm:px-8 md:grid-cols-12 md:py-20 lg:gap-14">
+      <ScrollReveal type="block" stagger={0.08} className="relative z-10 mx-auto grid max-w-[1180px] gap-12 px-5 py-16 sm:px-8 md:grid-cols-12 md:py-20 lg:gap-14">
         {/* Brand & Mission Column */}
         <div data-footer-col className="md:col-span-12 lg:col-span-4">
           <Link
@@ -94,21 +161,18 @@ export default function Footer() {
           </Link>
 
           <p className="mt-6 text-sm leading-relaxed text-mist/80 font-light">
-            Dedicated to dignity-based care, ethical resource stewardship, and sustainable social
-            systems across East Africa and the Middle East.
+            {siteSettings.footerTagline ||
+              'Dedicated to dignity-based care, ethical resource stewardship, and sustainable social systems across East Africa and the Middle East.'}
           </p>
 
           <div className="mt-6 border-l-2 border-bronze/70 pl-4 py-1">
             <p className="font-serif italic text-base text-paper/90 leading-snug">
-              &ldquo;When you choose to help others up, you help people rise as well.&rdquo;
+              &ldquo;{siteSettings.quoteText || 'When you choose to help others up, you help people rise as well.'}&rdquo;
             </p>
             <p className="mt-1 text-[11px] uppercase tracking-widest text-bronze font-medium">
-              Core Leadership Principle
+              {siteSettings.quoteAuthor || 'Core Leadership Principle'}
             </p>
           </div>
-
-
-
         </div>
 
         {/* Navigation Column */}
@@ -117,7 +181,7 @@ export default function Footer() {
             Explore
           </p>
           <ul className="mt-5 space-y-2.5">
-            {navLinks.map((link) => (
+            {footerLinks.map((link) => (
               <li key={link.to}>
                 <Link
                   to={link.to}
@@ -203,26 +267,28 @@ export default function Footer() {
           <div className="mt-5 space-y-3 text-xs text-mist/85">
             <div className="flex items-start gap-2.5">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-bronze" />
-              <span className="leading-snug text-paper/85">{profile.location}</span>
+              <span className="leading-snug text-paper/85">
+                {siteSettings.officeAddress || profile.location}
+              </span>
             </div>
 
             <div className="flex items-center gap-2.5">
               <Phone className="h-4 w-4 shrink-0 text-bronze" />
               <a
-                href={profile.phoneHref}
+                href={siteSettings.contactPhone ? `tel:${siteSettings.contactPhone.replace(/\s+/g, '')}` : profile.phoneHref}
                 className="text-paper/85 transition-colors hover:text-white hover:underline underline-offset-4"
               >
-                {profile.phone}
+                {siteSettings.contactPhone || profile.phone}
               </a>
             </div>
 
             <div className="flex items-center gap-2.5">
               <Mail className="h-4 w-4 shrink-0 text-bronze" />
               <a
-                href={`mailto:${profile.email}`}
+                href={`mailto:${siteSettings.contactEmail || profile.email}`}
                 className="text-paper/85 transition-colors hover:text-white hover:underline underline-offset-4 break-all"
               >
-                {profile.email}
+                {siteSettings.contactEmail || profile.email}
               </a>
             </div>
           </div>
@@ -260,10 +326,10 @@ export default function Footer() {
       </ScrollReveal>
 
       {/* Colophon & Copyright Bar */}
-      <div data-footer-base className="border-t border-white/[0.08] bg-black/40">
+      <div data-footer-base className="relative z-10 border-t border-white/[0.08] bg-black/40">
         <div className="mx-auto flex max-w-[1180px] flex-col gap-4 px-5 py-6 text-xs text-mist/75 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <p className="tracking-wide">
-            © 2026 {profile.name}. All rights reserved.
+            {siteSettings.copyrightText || `© 2026 ${profile.name}. All rights reserved.`}
           </p>
           <nav aria-label="Legal" className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <Link

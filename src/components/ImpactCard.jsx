@@ -3,6 +3,7 @@ import { ArrowUpRight, Sparkles, CheckCircle2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { gsap, prefersReducedMotion } from '../animations/gsapConfig'
 import ImageFrame from './ImageFrame'
+import { profile } from '../data/profile'
 
 function canTilt() {
   return (
@@ -88,7 +89,8 @@ export default function ImpactCard({ area, featured = false }) {
       >
         <ImageFrame
           src={area.image}
-          alt={area.imageAlt}
+          fallback={profile.storyImage}
+          alt={area.imageAlt || area.title}
           fit={area.imageFit || 'cover'}
           trim={area.imageTrim}
           parallax={area.imageFit !== 'contain'}

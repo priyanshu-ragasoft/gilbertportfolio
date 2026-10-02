@@ -1,10 +1,47 @@
+import { useState, useEffect } from 'react'
 import PageMeta from '../components/PageMeta'
 import Container from '../components/Container'
 import ScrollReveal from '../components/ScrollReveal'
 import Gallery from '../sections/Gallery'
-import { galleryItems } from '../data/gallery'
+import { galleryItems as defaultItems } from '../data/gallery'
+import { galleryAPI } from '../services/api'
 
 export default function ArchivePage() {
+  const [itemCount, setItemCount] = useState(() => {
+    const cached = localStorage.getItem('gilbert_cached_gallery')
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached)
+        if (parsed.items?.length) return parsed.items.length
+      } catch (e) {
+        // ignore
+      }
+    }
+    return defaultItems.length
+  })
+
+  useEffect(() => {
+    const fetchLatest = async () => {
+      try {
+        const res = await galleryAPI.getGallery()
+        if (res.success && res.data?.items?.length) {
+          setItemCount(res.data.items.length)
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+    fetchLatest()
+
+    const handleUpdate = (e) => {
+      if (e.detail?.items?.length) {
+        setItemCount(e.detail.items.length)
+      }
+    }
+    window.addEventListener('gilbert_gallery_updated', handleUpdate)
+    return () => window.removeEventListener('gilbert_gallery_updated', handleUpdate)
+  }, [])
+
   return (
     <>
       <PageMeta
@@ -31,7 +68,7 @@ export default function ArchivePage() {
             <div className="shrink-0">
               <span className="inline-flex items-center gap-2 rounded-full border border-[#C9A15A]/40 bg-[#C9A15A]/10 px-4 py-2 text-xs font-medium tracking-[0.16em] text-[#C9A15A] uppercase backdrop-blur-sm">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#C9A15A] animate-pulse" />
-                {galleryItems.length} Archived Records
+                {itemCount} Archived Records
               </span>
             </div>
           </div>

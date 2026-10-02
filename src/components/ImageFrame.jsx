@@ -1,9 +1,11 @@
 import { useRef } from 'react'
 import { useImageReveal } from '../hooks/useImageReveal'
+import { profile } from '../data/profile'
 
 export default function ImageFrame({
   src,
   alt,
+  fallback,
   className = '',
   tone = 'light',
   priority = false,
@@ -16,6 +18,8 @@ export default function ImageFrame({
 }) {
   const frameRef = useRef(null)
   useImageReveal(frameRef)
+
+  const defaultFallback = fallback || profile.storyImage
 
   const shapeClass = {
     default: 'rounded-2xl',
@@ -37,21 +41,29 @@ export default function ImageFrame({
         trim ? (
           <div className="relative w-full overflow-hidden" style={{ aspectRatio: trim.aspect }}>
             <img
-              src={src}
+              src={src || defaultFallback}
               alt={alt}
               className="absolute inset-x-0 w-full max-w-none"
               style={{ top: trim.top, height: trim.height }}
               loading={priority ? 'eager' : 'lazy'}
               decoding="async"
+              onError={(e) => {
+                e.target.onerror = null
+                if (defaultFallback) e.target.src = defaultFallback
+              }}
             />
           </div>
         ) : (
           <img
-            src={src}
+            src={src || defaultFallback}
             alt={alt}
             className="relative block h-auto w-full"
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"
+            onError={(e) => {
+              e.target.onerror = null
+              if (defaultFallback) e.target.src = defaultFallback
+            }}
           />
         )
       ) : (
@@ -61,7 +73,7 @@ export default function ImageFrame({
         >
           <div data-image-zoom className="h-full w-full origin-center">
             <img
-              src={src}
+              src={src || defaultFallback}
               alt={alt}
               className={`h-full w-full object-cover transition-all duration-700 ease-out will-change-transform ${
                 hoverEffect
@@ -71,6 +83,10 @@ export default function ImageFrame({
               style={{ objectPosition: position }}
               loading={priority ? 'eager' : 'lazy'}
               decoding="async"
+              onError={(e) => {
+                e.target.onerror = null
+                if (defaultFallback) e.target.src = defaultFallback
+              }}
             />
           </div>
         </div>

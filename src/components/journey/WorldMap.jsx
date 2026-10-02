@@ -7,7 +7,29 @@ import JourneyRoute from './JourneyRoute'
 const parallels = [-40, -20, 0, 20, 40, 60]
 const meridians = [-120, -60, 0, 60, 120]
 
-export default function WorldMap() {
+export default function WorldMap({ chapters }) {
+  // Combine preset pins with any dynamic chapters that have lon/lat coordinates
+  const dynamicPins = Array.isArray(chapters)
+    ? chapters
+        .filter((ch) => typeof ch.lon === 'number' && typeof ch.lat === 'number' && (ch.lon !== 0 || ch.lat !== 0))
+        .map((ch) => {
+          const coords = project(ch.lon, ch.lat)
+          return {
+            id: ch.id || ch.countryKey || `dyn-${ch.index}`,
+            label: ch.shortLocation || ch.location || 'Location',
+            note: ch.pinNote || ch.year || '',
+            align: 'up',
+            x: coords.x,
+            y: coords.y,
+          }
+        })
+    : []
+
+  // Unique list of all pins to render
+  const existingIds = new Set(journeyPins.map((p) => p.id))
+  const additionalPins = dynamicPins.filter((dp) => !existingIds.has(dp.id))
+  const allMarkers = [...journeyPins, ...journeyPlaces, ...additionalPins]
+
   return (
     <div className="relative h-full min-h-[220px] w-full overflow-hidden">
       <svg
@@ -56,7 +78,7 @@ export default function WorldMap() {
           {journeyRoutes.map((route) => (
             <JourneyRoute key={route.id} route={route} />
           ))}
-          {[...journeyPins, ...journeyPlaces].map((pin) => (
+          {allMarkers.map((pin) => (
             <JourneyMarker key={pin.id} pin={pin} label={pin.label} note={pin.note} align={pin.align} />
           ))}
         </g>

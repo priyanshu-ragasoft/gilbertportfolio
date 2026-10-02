@@ -2,11 +2,17 @@ import { useRef, useEffect } from 'react'
 import { gsap, prefersReducedMotion } from '../animations/gsapConfig'
 import { profile } from '../data/profile'
 
-export default function AboutPortrait3D({ className = '' }) {
+export default function AboutPortrait3D({
+  className = '',
+  image,
+  badgeTopText = 'EST. 1971',
+  badgeSubText = 'Kampala · Dubai',
+}) {
   const containerRef = useRef(null)
   const cardRef = useRef(null)
   const glareRef = useRef(null)
   const badgeRef = useRef(null)
+  const portraitSrc = image || profile.portrait || '/src/assets/images/gilbert-kwizera-lounge-armchair.jpg'
 
   useEffect(() => {
     if (prefersReducedMotion()) return undefined
@@ -127,7 +133,7 @@ export default function AboutPortrait3D({ className = '' }) {
         {/* Portrait Image with B&W to Full Color bloom on hover */}
         <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#0D0D0C]">
           <img
-            src={profile.portrait}
+            src={portraitSrc}
             alt="Portrait of Gilbert Kevin Jimmy Kwizera"
             decoding="async"
             fetchPriority="high"
@@ -159,8 +165,8 @@ export default function AboutPortrait3D({ className = '' }) {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[#C9A15A]" />
           </span>
           <div>
-            <p className="text-[0.6rem] font-medium tracking-[0.24em] text-[#C9A15A] uppercase">EST. 1971</p>
-            <p className="font-serif text-xs font-medium text-paper">Kampala · Dubai</p>
+            <p className="text-[0.6rem] font-medium tracking-[0.24em] text-[#C9A15A] uppercase">{badgeTopText || 'EST. 1971'}</p>
+            <p className="font-serif text-xs font-medium text-paper">{badgeSubText || 'Kampala · Dubai'}</p>
           </div>
         </div>
       </div>

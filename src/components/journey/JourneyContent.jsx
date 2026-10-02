@@ -63,26 +63,28 @@ function ChapterCard({ chapter }) {
   )
 }
 
-export default function JourneyContent() {
+export default function JourneyContent({ chapters }) {
+  const items = Array.isArray(chapters) && chapters.length > 0 ? chapters : journeyChapters
   return (
     <div className="relative min-h-[8.5rem] xs:min-h-[9.8rem] sm:min-h-[17rem] lg:min-h-[17.5rem]" aria-live="polite">
-      {journeyChapters.map((chapter) => (
+      {items.map((chapter) => (
         <ChapterCard key={chapter.id} chapter={chapter} />
       ))}
     </div>
   )
 }
 
-export function JourneyChapterList() {
+export function JourneyChapterList({ chapters }) {
+  const items = Array.isArray(chapters) && chapters.length > 0 ? chapters : journeyChapters
   return (
     <div className="mt-10 space-y-8">
-      {journeyChapters.map((chapter) => (
+      {items.map((chapter) => (
         <article key={chapter.id} className="grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-[minmax(0,1fr)_12rem]">
           <div>
             <p className="font-sans text-xs tracking-[0.2em] text-[#C9A15A]">
               {chapter.index}
               <span className="mx-2 text-[#8a847c]">/</span>
-              {chapter.date}
+              {chapter.date || chapter.year}
             </p>
             <h3 className="display mt-2 text-4xl text-[#f4f0e8]">{chapter.title}</h3>
             <p className="mt-3 text-sm leading-relaxed text-[#b7b0a6]">{chapter.description}</p>

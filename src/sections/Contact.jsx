@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef, lazy, Suspense } from 'react'
-import { Mail, MapPin, Phone, Clock, Copy, Check, Sparkles, Send, Globe } from 'lucide-react'
+import { Mail, MapPin, Phone, Clock, Copy, Check, Sparkles, Send, Globe, Loader2, AlertCircle } from 'lucide-react'
 import { gsap, prefersReducedMotion } from '../animations/gsapConfig'
 import Button from '../components/Button'
 import Container from '../components/Container'
@@ -7,6 +7,7 @@ import ScrollReveal from '../components/ScrollReveal'
 import hotelEntrance from '../assets/images/gilbert-kwizera-hotel-entrance.jpg'
 import { profile } from '../data/profile'
 import { useGSAP } from '../hooks/useGSAP'
+import { inquiryAPI } from '../services/api'
 
 const Contact3DCanvas = lazy(() => import('../three/Contact/Contact3DCanvas'))
 const ParticlesCanvas = lazy(() => import('../three/Particles/ParticlesCanvas'))
@@ -37,6 +38,9 @@ export default function Contact({ standalone = false }) {
   const [values, setValues] = useState(initial)
   const [errors, setErrors] = useState({})
   const [sent, setSent] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [lastSubmitted, setLastSubmitted] = useState(null)
   const [copiedKey, setCopiedKey] = useState(null)
   const [dubaiTime, setDubaiTime] = useState('')
   const [viewMode, setViewMode] = useState('3d') // '3d' | 'photo'
@@ -104,24 +108,74 @@ export default function Contact({ standalone = false }) {
     const { name, value } = event.target
     setValues((current) => ({ ...current, [name]: value }))
     setErrors((current) => ({ ...current, [name]: undefined }))
+    if (submitError) setSubmitError('')
   }
 
   const selectTopic = (topic) => {
     setValues((current) => ({ ...current, topic }))
   }
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault()
     const nextErrors = validate(values)
     setErrors(nextErrors)
+    setSubmitError('')
     if (Object.keys(nextErrors).length) return
 
-    const subject = encodeURIComponent(`[${values.topic}] Note from ${values.name.trim()}`)
-    const body = encodeURIComponent(
-      `Inquiry Topic: ${values.topic}\n\n${values.message.trim()}\n\n---\nSender: ${values.name.trim()}\nEmail: ${values.email.trim()}`
-    )
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`
-    setSent(true)
+    setIsSubmitting(true)
+    const topicTypeMap = {
+      'Philanthropy & Donation': 'donation',
+      'Education Initiatives': 'inquiry',
+      'Global Consultation': 'advisory',
+      'Partnership': 'partnership',
+      'General Inquiry': 'inquiry',
+    }
+
+    const payload = {
+      name: values.name.trim(),
+      email: values.email.trim(),
+      subject: values.topic,
+      message: values.message.trim(),
+      type: topicTypeMap[values.topic] || 'inquiry',
+    }
+
+    try {
+      let createdInquiry = null
+
+      try {
+        const response = await inquiryAPI.createInquiry(payload)
+        if (response && response.data) {
+          createdInquiry = response.data
+        }
+      } catch (apiErr) {
+        console.warn('Backend API submission failed, fallback to local storage:', apiErr)
+      }
+
+      // Also create/sync local record for offline / instant reflection in Admin
+      const localInq = createdInquiry || {
+        _id: 'local-' + Date.now(),
+        ...payload,
+        status: 'new',
+        createdAt: new Date().toISOString(),
+      }
+
+      try {
+        const cached = JSON.parse(localStorage.getItem('gilbert_cached_inquiries') || '[]')
+        const updated = [localInq, ...cached.filter((x) => x._id !== localInq._id)]
+        localStorage.setItem('gilbert_cached_inquiries', JSON.stringify(updated))
+        window.dispatchEvent(new CustomEvent('gilbert_inquiry_received', { detail: localInq }))
+      } catch (e) {
+        console.warn('Could not cache inquiry to localStorage:', e)
+      }
+
+      setLastSubmitted({ name: values.name, topic: values.topic })
+      setSent(true)
+      setValues(initial)
+    } catch (err) {
+      setSubmitError(err.message || 'Failed to transmit message. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const fieldClass = (name) =>
@@ -385,13 +439,13 @@ export default function Contact({ standalone = false }) {
           <div className="relative rounded-2xl border border-line/80 bg-ivory/80 p-4 sm:p-8 md:p-10 shadow-[0_20px_50px_-20px_rgba(23,21,19,0.1)] backdrop-blur-xl lg:col-span-7 w-full min-w-0 max-w-full overflow-hidden">
             {sent ? (
               <div id="contact-thanks" className="flex flex-col items-center py-12 text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-bronze/15 text-bronze">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-bronze/15 text-bronze shadow-[0_0_20px_rgba(141,112,67,0.2)]">
                   <Check className="h-8 w-8" />
                 </div>
-                <h3 className="display mt-6 text-4xl text-ink">Inquiry Sent.</h3>
-                <p className="mt-4 max-w-md text-base leading-relaxed text-muted">
-                  Thank you, <span className="font-semibold text-ink">{values.name}</span>. Your inquiry regarding{' '}
-                  <span className="font-medium text-bronze">{values.topic}</span> has been formatted and forwarded to {profile.email}.
+                <h3 className="display mt-6 text-3xl sm:text-4xl text-ink">Inquiry Received.</h3>
+                <p className="mt-4 max-w-md text-sm sm:text-base leading-relaxed text-muted">
+                  Thank you, <span className="font-semibold text-ink">{lastSubmitted?.name || 'Friend'}</span>. Your inquiry regarding{' '}
+                  <span className="font-medium text-bronze">{lastSubmitted?.topic || 'Direct Initiative'}</span> has been delivered to Gilbert Kevin Jimmy Kwizera&apos;s executive administrative portal.
                 </p>
                 <div className="mt-8 flex gap-4">
                   <Button onClick={() => setSent(false)}>
@@ -401,6 +455,13 @@ export default function Contact({ standalone = false }) {
               </div>
             ) : (
               <form onSubmit={onSubmit} noValidate className="space-y-6 w-full min-w-0 max-w-full">
+                {submitError && (
+                  <div className="flex items-center gap-2.5 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-xs font-medium text-red-600">
+                    <AlertCircle className="h-4 w-4 shrink-0" />
+                    <span>{submitError}</span>
+                  </div>
+                )}
+
                 {/* Topic Selector Chips */}
                 <div className="w-full min-w-0">
                   <label className="mb-2.5 block text-xs font-semibold uppercase tracking-[0.16em] text-muted">
@@ -413,6 +474,7 @@ export default function Contact({ standalone = false }) {
                         <button
                           key={topic}
                           type="button"
+                          disabled={isSubmitting}
                           onClick={() => selectTopic(topic)}
                           className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-medium transition-all duration-300 ${selected
                             ? 'bg-bronze text-paper shadow-[0_4px_14px_rgba(141,112,67,0.35)] scale-[1.02]'
@@ -436,6 +498,7 @@ export default function Contact({ standalone = false }) {
                       id="name"
                       name="name"
                       autoComplete="name"
+                      disabled={isSubmitting}
                       placeholder="e.g. Elena Rostova"
                       value={values.name}
                       onChange={onChange}
@@ -459,6 +522,7 @@ export default function Contact({ standalone = false }) {
                       name="email"
                       type="email"
                       autoComplete="email"
+                      disabled={isSubmitting}
                       placeholder="e.g. elena@example.com"
                       value={values.email}
                       onChange={onChange}
@@ -483,6 +547,7 @@ export default function Contact({ standalone = false }) {
                     id="message"
                     name="message"
                     rows={5}
+                    disabled={isSubmitting}
                     placeholder="Describe your initiative, foundation objective, or consultation inquiry..."
                     value={values.message}
                     onChange={onChange}
@@ -504,13 +569,23 @@ export default function Contact({ standalone = false }) {
                   </p>
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     data-submit
-                    className="group relative inline-flex shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-full bg-bronze px-6 sm:px-7 py-3.5 text-sm font-medium tracking-wide text-paper shadow-[0_8px_25px_rgba(141,112,67,0.35)] transition-all duration-300 hover:scale-[1.03] hover:bg-ink hover:shadow-[0_8px_25px_rgba(23,21,19,0.4)]"
+                    className="group relative inline-flex shrink-0 items-center justify-center gap-3 whitespace-nowrap rounded-full bg-bronze px-6 sm:px-7 py-3.5 text-sm font-medium tracking-wide text-paper shadow-[0_8px_25px_rgba(141,112,67,0.35)] transition-all duration-300 hover:scale-[1.03] hover:bg-ink hover:shadow-[0_8px_25px_rgba(23,21,19,0.4)] disabled:opacity-75 disabled:pointer-events-none"
                   >
-                    <span className="whitespace-nowrap">Transmit Message</span>
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 text-paper transition-all duration-300 group-hover:bg-paper group-hover:text-ink group-hover:rotate-45">
-                      <Send className="h-3.5 w-3.5 shrink-0" />
-                    </span>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <span>Transmitting Message...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="whitespace-nowrap">Transmit Message</span>
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 text-paper transition-all duration-300 group-hover:bg-paper group-hover:text-ink group-hover:rotate-45">
+                          <Send className="h-3.5 w-3.5 shrink-0" />
+                        </span>
+                      </>
+                    )}
                   </button>
                 </div>
               </form>

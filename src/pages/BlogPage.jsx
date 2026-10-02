@@ -1,14 +1,14 @@
 import PageMeta from '../components/PageMeta'
-import Blog from '../sections/Blog'
+import BlogPageContent from '../components/BlogPageContent'
 
 export default function BlogPage() {
   return (
     <>
       <PageMeta
-        title="Insights — Gilbert Kevin Jimmy Kwizera"
-        description="Essays and films published by Gilbert Kevin Jimmy Kwizera on innovation, education, and cancer care."
+        title="Blog & Insights — Gilbert Kevin Jimmy Kwizera"
+        description="Official publications, recorded documentary films, and essays on cancer care, education, and innovation ecosystems by Gilbert Kevin Jimmy Kwizera."
       />
-      <Blog page />
+      <BlogPageContent />
     </>
   )
 }

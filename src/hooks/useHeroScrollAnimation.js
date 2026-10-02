@@ -4,7 +4,7 @@ import { bindHeroParallax } from '../animations/heroParallax'
 import { gsap, prefersReducedMotion } from '../animations/gsapConfig'
 import { useGSAP } from './useGSAP'
 
-export function useHeroScrollAnimation(heroRef) {
+export function useHeroScrollAnimation(heroRef, deps = []) {
   useLayoutEffect(() => {
     if (!prefersReducedMotion()) return undefined
     const section = heroRef.current
@@ -13,7 +13,7 @@ export function useHeroScrollAnimation(heroRef) {
       buildHeroScrollReduced(section)
     }, section)
     return () => context.revert()
-  }, [heroRef])
+  }, [heroRef, ...deps])
 
   useGSAP(() => {
     const section = heroRef.current
@@ -39,5 +39,5 @@ export function useHeroScrollAnimation(heroRef) {
       releaseParallax()
       media.revert()
     }
-  }, [])
+  }, { scope: heroRef, dependencies: [heroRef, ...deps] })
 }

@@ -40,6 +40,14 @@ export const navLinks = [
   { label: 'Insights', to: '/insights' },
   { label: 'Contact', to: '/contact' },
 ]
+export const footerLinks = [
+  { label: 'About', to: '/about' },
+  { label: 'Projects', to: '/projects' },
+  { label: 'Archive', to: '/archive' },
+  { label: 'Blog', to: '/blog' },
+  { label: 'Insights', to: '/insights' },
+  { label: 'Contact', to: '/contact' },
+]
 
 export const roles = [
   {

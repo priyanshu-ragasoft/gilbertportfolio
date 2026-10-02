@@ -2,8 +2,9 @@ import { journeyChapters } from '../../data/journeyLocations'
 import { ScrollTrigger } from '../../animations/gsapConfig'
 import { lenis } from '../../hooks/useLenis'
 
-export default function JourneyTimeline({ orientation = 'horizontal' }) {
+export default function JourneyTimeline({ orientation = 'horizontal', chapters }) {
   const vertical = orientation === 'vertical'
+  const items = Array.isArray(chapters) && chapters.length > 0 ? chapters : journeyChapters
 
   const scrollToChapter = (index) => {
     const journeySection = document.getElementById('journey')
@@ -11,7 +12,7 @@ export default function JourneyTimeline({ orientation = 'horizontal' }) {
     const allTriggers = ScrollTrigger?.getAll() || []
     const trigger = allTriggers.find((st) => st.trigger === journeySection)
     if (trigger) {
-      const count = journeyChapters.length
+      const count = items.length
       const stepProgress = Math.min(0.999, Math.max(0, (index + 0.4) / count))
       const targetScroll = trigger.start + (trigger.end - trigger.start) * stepProgress
       if (lenis) {
@@ -39,7 +40,7 @@ export default function JourneyTimeline({ orientation = 'horizontal' }) {
         />
 
         <ol className="relative flex flex-col gap-5 xl:gap-6">
-          {journeyChapters.map((chapter, index) => (
+          {items.map((chapter, index) => (
             <li
               key={chapter.id}
               data-journey-step-item={chapter.id}
@@ -162,7 +163,7 @@ export default function JourneyTimeline({ orientation = 'horizontal' }) {
       </svg>
 
       <ol className="relative z-10 flex items-center justify-between">
-        {journeyChapters.map((chapter, index) => (
+        {items.map((chapter, index) => (
           <li
             key={chapter.id}
             data-journey-step-item={chapter.id}

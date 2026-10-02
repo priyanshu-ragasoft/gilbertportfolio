@@ -4,24 +4,30 @@ import { ArrowUpRight, Maximize2, X, MapPin, Calendar, ChevronLeft, ChevronRight
 import Container from '../components/Container'
 import SectionHeading from '../components/SectionHeading'
 import { useImageReveal } from '../hooks/useImageReveal'
-import { galleryCategories, galleryItems } from '../data/gallery'
+import { galleryCategories as initialCategories, galleryItems as initialItems } from '../data/gallery'
+import { galleryAPI } from '../services/api'
+import { resolveAsset } from '../utils/resolveAsset'
 
 function GalleryPhoto({ item }) {
   const ref = useRef(null)
   useImageReveal(ref)
+  const resolvedImg = resolveAsset(item.image)
 
   return (
     <div ref={ref} className="relative aspect-[4/3] w-full overflow-hidden bg-[#0D0D0C]">
       <img
-        src={item.image}
+        src={resolvedImg}
         alt={item.title}
         loading="lazy"
         decoding="async"
         className="h-full w-full object-cover grayscale contrast-[1.05]"
         style={{ objectPosition: item.position || 'center 10%' }}
+        onError={(e) => {
+          e.currentTarget.src = '/src/assets/images/gilbert-kwizera-executive.jpg'
+        }}
       />
       <img
-        src={item.image}
+        src={resolvedImg}
         alt=""
         aria-hidden="true"
         loading="lazy"
@@ -32,7 +38,7 @@ function GalleryPhoto({ item }) {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0D0D0C] via-transparent to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-40" />
       <div className="absolute top-3 left-3 z-10">
         <span className="inline-block border border-white/20 bg-[#0D0D0C]/80 px-2.5 py-1 text-[0.6rem] font-medium tracking-[0.18em] text-[#C9A15A] uppercase backdrop-blur-sm">
-          {item.tag}
+          {item.tag || item.category}
         </span>
       </div>
       <div className="absolute top-3 right-3 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -45,13 +51,73 @@ function GalleryPhoto({ item }) {
 }
 
 export default function Gallery({ hideTopHeader = false, className = '' }) {
+  const [galleryData, setGalleryData] = useState(() => {
+    const cached = localStorage.getItem('gilbert_cached_gallery')
+    if (cached) {
+      try {
+        return JSON.parse(cached)
+      } catch (e) {
+        // ignore
+      }
+    }
+    return {
+      eyebrow: 'Archival Visuals',
+      title: 'Moments of Service, Fieldwork & Leadership',
+      leadText:
+        'A complete photographic archive documenting over two decades of direct humanitarian fieldwork, cancer care foundations, school initiatives, and international strategic leadership.',
+      categories: initialCategories,
+      items: initialItems,
+    }
+  })
+
   const [activeCategory, setActiveCategory] = useState('All')
   const [selectedPhoto, setSelectedPhoto] = useState(null)
 
+  useEffect(() => {
+    const loadGallery = async () => {
+      try {
+        const res = await galleryAPI.getGallery()
+        if (res.success && res.data) {
+          const formatted = {
+            eyebrow: res.data.eyebrow || 'Archival Visuals',
+            title: res.data.title || 'Moments of Service, Fieldwork & Leadership',
+            leadText:
+              res.data.leadText ||
+              'A complete photographic archive documenting over two decades of direct humanitarian fieldwork, cancer care foundations, school initiatives, and international strategic leadership.',
+            categories:
+              res.data.categories && res.data.categories.length > 0
+                ? res.data.categories
+                : initialCategories,
+            items:
+              res.data.items && res.data.items.length > 0
+                ? res.data.items
+                : initialItems,
+          }
+          setGalleryData(formatted)
+          localStorage.setItem('gilbert_cached_gallery', JSON.stringify(formatted))
+        }
+      } catch (err) {
+        // fallback to cache
+      }
+    }
+
+    loadGallery()
+
+    const handleUpdate = (e) => {
+      if (e.detail) {
+        setGalleryData(e.detail)
+      }
+    }
+
+    window.addEventListener('gilbert_gallery_updated', handleUpdate)
+    return () => window.removeEventListener('gilbert_gallery_updated', handleUpdate)
+  }, [])
+
   const filteredItems = useMemo(() => {
-    if (activeCategory === 'All') return galleryItems
-    return galleryItems.filter((item) => item.category === activeCategory)
-  }, [activeCategory])
+    const items = galleryData.items || []
+    if (activeCategory === 'All') return items
+    return items.filter((item) => item.category === activeCategory)
+  }, [activeCategory, galleryData.items])
 
   const currentIndex = useMemo(() => {
     if (!selectedPhoto) return -1
@@ -111,23 +177,21 @@ export default function Gallery({ hideTopHeader = false, className = '' }) {
         {!hideTopHeader && (
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <SectionHeading
-              eyebrow="Archival Visuals"
-              title="Moments of Service, Fieldwork & Leadership"
+              eyebrow={galleryData.eyebrow}
+              title={galleryData.title}
             >
-              A complete photographic archive documenting over two decades of direct humanitarian
-              fieldwork, cancer care foundations, school initiatives, and international strategic
-              leadership.
+              {galleryData.leadText}
             </SectionHeading>
 
             <p className="max-w-xs font-sans text-xs tracking-[0.2em] text-[#C9A15A] uppercase">
-              {galleryItems.length} Archived Moments
+              {galleryData.items?.length || 0} Archived Moments
             </p>
           </div>
         )}
 
         {/* Filter categories */}
         <div className={`flex items-center gap-2 overflow-x-auto pb-4 pt-1 md:pb-6 scrollbar-none snap-x md:flex-wrap border-b border-white/10 ${hideTopHeader ? 'mt-0' : 'mt-12'}`}>
-          {galleryCategories.map((cat) => (
+          {(galleryData.categories || initialCategories).map((cat) => (
             <button
               key={cat}
               type="button"
@@ -231,7 +295,7 @@ export default function Gallery({ hideTopHeader = false, className = '' }) {
                 {/* Modal Image */}
                 <div className="relative max-h-[60vh] sm:max-h-[64vh] overflow-hidden bg-black flex items-center justify-center">
                   <img
-                    src={selectedPhoto.image}
+                    src={resolveAsset(selectedPhoto.image)}
                     alt={selectedPhoto.title}
                     className="max-h-[60vh] sm:max-h-[64vh] w-auto max-w-full object-contain"
                   />
