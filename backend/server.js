@@ -27,6 +27,8 @@ import settingsRoutes from './routes/settingsRoutes.js'
 import journeyRoutes from './routes/journeyRoutes.js'
 import livingTestimonyRoutes from './routes/livingTestimonyRoutes.js'
 
+import mongoose from 'mongoose'
+
 // Load environment variables
 dotenv.config()
 
@@ -36,36 +38,34 @@ const __dirname = path.dirname(__filename)
 // Initialize Express App
 const app = express()
 
-// Connect to MongoDB
-connectDB()
-
-// Seed default Admin user if none exists & clean legacy admin names
-const seedDefaultAdmin = async () => {
-  try {
-    const adminCount = await User.countDocuments()
-    const defaultEmail = process.env.ADMIN_EMAIL || 'admin@gilbert.com'
-    const defaultPassword = process.env.ADMIN_PASSWORD || 'Admin@123456'
-
-    if (adminCount === 0) {
-      await User.create({
-        name: 'Gilbert Executive Admin',
-        email: defaultEmail,
-        password: defaultPassword,
-        role: 'superadmin',
-      })
-      console.log(`[Seed]: Default Admin created -> Email: ${defaultEmail} | Password: ${defaultPassword}`)
-    } else {
-      // Auto-migrate legacy Krinova admin profile to Gilbert Executive Admin
-      await User.updateMany(
-        { $or: [{ name: { $regex: /krinova/i } }, { email: { $regex: /krinova/i } }] },
-        { $set: { name: 'Gilbert Executive Admin', email: defaultEmail } }
-      )
+let adminSeeded = false
+const ensureAdminAndDB = async () => {
+  await connectDB()
+  if (!adminSeeded && mongoose.connection.readyState === 1) {
+    try {
+      const defaultEmail = process.env.ADMIN_EMAIL || 'admin@gilbert.com'
+      const defaultPassword = process.env.ADMIN_PASSWORD || 'Admin@123456'
+      const adminCount = await User.countDocuments()
+      if (adminCount === 0) {
+        await User.create({
+          name: 'Gilbert Executive Admin',
+          email: defaultEmail,
+          password: defaultPassword,
+          role: 'superadmin',
+        })
+        console.log(`[Seed]: Default Admin created -> Email: ${defaultEmail}`)
+      }
+      adminSeeded = true
+    } catch (error) {
+      console.warn(`[Seed Warning]:`, error.message)
     }
-  } catch (error) {
-    console.error(`[Seed Error]:`, error.message)
   }
 }
-seedDefaultAdmin()
+
+// Connect to MongoDB on local development start
+if (!process.env.VERCEL) {
+  ensureAdminAndDB()
+}
 
 // Middlewares
 app.use(
@@ -81,10 +81,22 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 // Static folder for uploaded images
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
+// Serverless DB Connection & Initialization Middleware
+app.use(async (req, res, next) => {
+  try {
+    await ensureAdminAndDB()
+  } catch (err) {
+    console.warn('[DB Middleware Notice]:', err.message)
+  }
+  next()
+})
+
 // Health check route
 app.get('/api/health', (req, res) => {
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'connecting'
   res.status(200).json({
     status: 'online',
+    db: dbStatus,
     timestamp: new Date(),
     service: 'Gilbert Portfolio CMS API',
   })
@@ -107,15 +119,7 @@ app.use('/api/insights-section', insightsRoutes)
 app.use('/api/philosophy', philosophyRoutes)
 app.use('/api/settings', settingsRoutes)
 app.use('/api/journey', journeyRoutes)
-// Serverless DB Connection Middleware
-app.use(async (req, res, next) => {
-  try {
-    await connectDB()
-    next()
-  } catch (err) {
-    next(err)
-  }
-})
+app.use('/api/testimonies', livingTestimonyRoutes)
 
 // Central Error Handling Middleware
 app.use(errorHandler)
