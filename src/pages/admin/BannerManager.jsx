@@ -340,12 +340,12 @@ export default function BannerManager() {
           </p>
         </div>
 
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="flex w-full items-center gap-3 sm:w-auto">
           <button
             type="button"
             onClick={handleSave}
             disabled={saving}
-            className="inline-flex shrink-0 items-center justify-center whitespace-nowrap gap-2 rounded-xl bg-gradient-to-r from-[#8d7043] to-[#C9A15A] px-6 py-2.5 text-xs font-semibold text-black uppercase tracking-wider hover:opacity-95 disabled:opacity-50 transition-opacity shadow-lg"
+            className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#8d7043] to-[#C9A15A] px-6 py-2.5 text-xs font-semibold text-black uppercase tracking-wider hover:opacity-95 disabled:opacity-50 transition-opacity shadow-lg sm:w-auto"
           >
             <Save className="h-4 w-4" />
             <span>{saving ? 'Saving...' : 'Save & Publish Live'}</span>
@@ -370,15 +370,15 @@ export default function BannerManager() {
       {/* Grid: Editor Form & Live Simulator */}
       <div className="grid gap-8 lg:grid-cols-12 items-start">
         {/* Left Column: Form Controls */}
-        <form onSubmit={handleSave} className="lg:col-span-6 space-y-6 rounded-3xl border border-white/10 bg-[#14120e] p-6 sm:p-7 shadow-xl">
+        <form onSubmit={handleSave} className="lg:col-span-6 min-w-0 space-y-6 rounded-3xl border border-white/10 bg-[#14120e] p-4 sm:p-7 shadow-xl">
           <div className="space-y-6">
             {/* Multi-Image Slider & Upload Section */}
-            <div className="rounded-2xl border border-white/10 bg-black/40 p-5 space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-[#C9A15A] flex items-center gap-1.5">
-                    <Layers className="h-4 w-4" />
-                    <span>Banner Background Images ({formData.images.length} Photos in Slider)</span>
+            <div className="rounded-2xl border border-white/10 bg-black/40 p-4 sm:p-5 space-y-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-[#C9A15A] flex items-start gap-1.5">
+                    <Layers className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>Banner images ({formData.images.length} in slider)</span>
                   </label>
                   <p className="text-[0.68rem] text-mist/60 mt-0.5">
                     Website par background images automatically smooth crossfade slider me chalengi.
@@ -386,7 +386,7 @@ export default function BannerManager() {
                 </div>
 
                 {/* Upload from PC Button */}
-                <div>
+                <div className="w-full sm:w-auto">
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -397,7 +397,7 @@ export default function BannerManager() {
                   />
                   <label
                     htmlFor="banner-file-input"
-                    className={`inline-flex items-center gap-1.5 cursor-pointer rounded-xl bg-gradient-to-r from-[#8d7043] to-[#C9A15A] px-3.5 py-1.5 text-xs font-semibold text-black uppercase tracking-wider hover:opacity-90 transition-opacity ${
+                    className={`inline-flex w-full items-center justify-center gap-1.5 cursor-pointer rounded-xl bg-gradient-to-r from-[#8d7043] to-[#C9A15A] px-3.5 py-2 text-xs font-semibold text-black uppercase tracking-wider hover:opacity-90 transition-opacity sm:w-auto ${
                       uploading ? 'opacity-50 pointer-events-none' : ''
                     }`}
                   >
@@ -439,15 +439,15 @@ export default function BannerManager() {
               </div>
 
               {/* Slider Interval Selector */}
-              <div className="flex items-center justify-between pt-3 border-t border-white/5 text-xs">
+              <div className="flex flex-col gap-2 pt-3 border-t border-white/5 text-xs sm:flex-row sm:items-center sm:justify-between">
                 <span className="text-mist/70 flex items-center gap-1.5">
-                  <Clock className="h-3.5 w-3.5 text-[#C9A15A]" />
-                  <span>Auto-Slide Transition Speed:</span>
+                  <Clock className="h-3.5 w-3.5 shrink-0 text-[#C9A15A]" />
+                  <span>Auto-slide speed</span>
                 </span>
                 <select
                   value={formData.autoSlideInterval || 5000}
                   onChange={(e) => setFormData({ ...formData, autoSlideInterval: Number(e.target.value) })}
-                  className="rounded-lg border border-white/10 bg-black/60 px-3 py-1 text-xs text-white focus:border-[#C9A15A] focus:outline-none"
+                  className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-2 text-xs text-white focus:border-[#C9A15A] focus:outline-none sm:w-auto"
                 >
                   <option value={3000}>3 Seconds (Fast)</option>
                   <option value={5000}>5 Seconds (Standard)</option>
@@ -637,7 +637,7 @@ export default function BannerManager() {
         </form>
 
         {/* Right Column: Live Visual Simulator Preview */}
-        <div className="lg:col-span-6 sticky top-28 space-y-4">
+        <div className="lg:col-span-6 min-w-0 space-y-4 lg:sticky lg:top-28">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-serif text-white font-medium flex items-center gap-2">
               <Eye className="h-4 w-4 text-[#C9A15A]" />

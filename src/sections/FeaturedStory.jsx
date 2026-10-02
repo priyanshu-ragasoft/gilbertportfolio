@@ -103,7 +103,7 @@ export default function FeaturedStory() {
           <ScrollReveal type="text" as="p" className="text-xs font-medium uppercase tracking-[0.22em] text-paper/75">
             {story.eyebrow || 'Featured story · Cancer care'}
           </ScrollReveal>
-          <ScrollReveal type="text" as="h2" className="display mt-4 max-w-3xl text-5xl sm:text-7xl">
+          <ScrollReveal type="text" as="h2" className="display mt-4 max-w-3xl text-[clamp(2rem,8vw,4.5rem)] leading-[1.05] sm:text-7xl">
             {story.title}
           </ScrollReveal>
         </div>

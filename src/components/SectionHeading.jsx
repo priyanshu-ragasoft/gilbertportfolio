@@ -22,7 +22,7 @@ export default function SectionHeading({
       <ScrollReveal
         type="text"
         as={Title}
-        className={`display mt-4 text-4xl sm:text-5xl md:text-6xl ${invert ? 'text-paper' : 'text-ink'}`}
+        className={`display mt-4 break-words text-[clamp(1.85rem,7vw,3.75rem)] leading-[1.08] ${invert ? 'text-paper' : 'text-ink'}`}
       >
         {title}
       </ScrollReveal>

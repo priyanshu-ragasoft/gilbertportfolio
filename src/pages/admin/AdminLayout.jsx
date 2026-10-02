@@ -67,7 +67,7 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#0d0c0a] text-paper flex overflow-x-hidden selection:bg-[#8d7043]/30 selection:text-white">
+    <div className="admin-shell min-h-screen w-full max-w-[100vw] bg-[#0d0c0a] text-paper flex overflow-x-hidden selection:bg-[#8d7043]/30 selection:text-white">
       {/* Mobile Sidebar Overlay */}
       {mobileOpen && (
         <div
@@ -160,7 +160,7 @@ export default function AdminLayout() {
       {/* Main Content Area */}
       <div className="flex-1 lg:pl-72 flex flex-col min-w-0">
         {/* Top Navbar */}
-        <header className="sticky top-0 z-30 flex h-20 items-center justify-between border-b border-white/10 bg-[#0d0c0a]/90 px-6 backdrop-blur-md">
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-white/10 bg-[#0d0c0a]/90 px-4 backdrop-blur-md sm:h-20 sm:px-6">
           <div className="flex items-center gap-4">
             <button
               type="button"
@@ -183,7 +183,7 @@ export default function AdminLayout() {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 p-6 sm:p-8 lg:p-10 max-w-7xl w-full mx-auto">
+        <main className="min-w-0 flex-1 overflow-x-hidden px-3 py-5 sm:p-8 lg:p-10 max-w-7xl w-full mx-auto">
           <Outlet />
         </main>
       </div>

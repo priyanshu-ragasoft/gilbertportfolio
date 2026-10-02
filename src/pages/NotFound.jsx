@@ -11,7 +11,7 @@ export default function NotFound() {
         <p data-missing="kicker" className="text-xs uppercase tracking-[0.2em] text-muted">
           404
         </p>
-        <ScrollReveal type="text" as="h1" data-missing="title" className="display mt-4 text-5xl text-ink sm:text-7xl">
+        <ScrollReveal type="text" as="h1" data-missing="title" className="display mt-4 text-[clamp(2.1rem,8vw,4.5rem)] leading-[1.05] text-ink">
           This page is not on the record.
         </ScrollReveal>
         <Link data-missing="link" to="/" className="mt-8 inline-block text-sm font-medium hover:text-bronze">

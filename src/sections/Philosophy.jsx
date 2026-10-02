@@ -120,7 +120,7 @@ export default function Philosophy() {
           type="text"
           as="p"
           data-philosophy-line
-          className="display mt-6 max-w-4xl text-4xl sm:text-6xl md:text-7xl"
+          className="display mt-6 max-w-4xl break-words text-[clamp(1.85rem,7vw,4.5rem)] leading-[1.08]"
         >
           {data.statement || defaultPhilosophy.statement}
         </ScrollReveal>

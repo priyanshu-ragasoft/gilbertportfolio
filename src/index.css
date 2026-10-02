@@ -74,6 +74,19 @@
     width: 100%;
   }
 
+  .admin-shell input,
+  .admin-shell select,
+  .admin-shell textarea,
+  .admin-shell img {
+    max-width: 100%;
+  }
+
+  @media (max-width: 639px) {
+    .admin-shell .whitespace-nowrap {
+      white-space: normal;
+    }
+  }
+
   /* Buttery smooth GPU transform helper */
   .will-change-transform {
     will-change: transform, opacity;

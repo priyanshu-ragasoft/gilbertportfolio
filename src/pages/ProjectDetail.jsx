@@ -52,7 +52,7 @@ export default function ProjectDetail() {
   if (!rawProject) {
     return (
       <Container data-scene="missing" className="py-40">
-        <h1 data-missing="title" className="display text-5xl">
+        <h1 data-missing="title" className="display text-3xl sm:text-5xl">
           Project not found
         </h1>
         <Link data-missing="link" to="/projects" className="mt-6 inline-block text-sm hover:text-bronze">
@@ -84,7 +84,7 @@ export default function ProjectDetail() {
             <span className="mx-2 text-bronze">/</span>
             {project.date}
           </p>
-          <ScrollReveal type="text" as="h1" data-detail="title" className="display mt-4 max-w-4xl text-5xl text-ink sm:text-7xl">
+          <ScrollReveal type="text" as="h1" data-detail="title" className="display mt-4 max-w-4xl text-[clamp(2rem,8vw,4.5rem)] leading-[1.05] text-ink">
             {project.title}
           </ScrollReveal>
           <div className="mt-10">

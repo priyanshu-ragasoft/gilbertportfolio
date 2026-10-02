@@ -135,7 +135,7 @@ export default function Navbar() {
             className={`relative z-10 inline-flex origin-left transition-transform duration-300 ${scrolled ? 'scale-105' : 'scale-100'}`}
             onClick={(e) => handleNavClick(e, '/')}
           >
-            <Logo priority className={`h-16 w-auto drop-shadow-sm transition-all duration-300 sm:h-20 ${!light ? 'brightness-0' : ''}`} />
+            <Logo priority className={`h-11 w-auto max-w-[9.5rem] object-contain object-left drop-shadow-sm transition-all duration-300 sm:h-16 sm:max-w-none md:h-20 ${!light ? 'brightness-0' : ''}`} />
           </Link>
 
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 lg:flex" aria-label="Primary">

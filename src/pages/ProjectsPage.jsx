@@ -15,7 +15,7 @@ export default function ProjectsPage() {
           <p data-listing-kicker className="text-xs font-medium uppercase tracking-[0.22em] text-muted">
             Projects
           </p>
-          <ScrollReveal type="text" as="h1" data-listing-title className="display mt-4 max-w-3xl text-5xl text-ink sm:text-7xl">
+          <ScrollReveal type="text" as="h1" data-listing-title className="display mt-4 max-w-3xl text-[clamp(2.1rem,8vw,4.5rem)] leading-[1.05] text-ink">
             Projects That Impact Lives
           </ScrollReveal>
           <ScrollReveal type="block" data-listing-lede className="mt-5 max-w-xl">
