@@ -8,6 +8,7 @@ import SectionHeading from '../components/SectionHeading'
 import { figures as defaultFigures, profile } from '../data/profile'
 import { impactAreas } from '../data/impact'
 import { impactAPI } from '../services/api'
+import { resolveAsset } from '../utils/resolveAsset'
 
 const DEFAULT_IMPACT = {
   eyebrow: 'Impact',
@@ -95,7 +96,7 @@ export default function Impact() {
     if (!img || img.includes('uganda-cancer-institute.jpg')) {
       return profile.storyImage || '/src/assets/images/ccf-uci.jpg'
     }
-    return img
+    return resolveAsset(img)
   }
 
   const activeStoryImage = sanitizeStoryImage(data.storyImage)

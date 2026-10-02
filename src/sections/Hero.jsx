@@ -8,6 +8,7 @@ import { prefersReducedMotion } from '../animations/gsapConfig'
 import { profile } from '../data/profile'
 import { useHeroScrollAnimation } from '../hooks/useHeroScrollAnimation'
 import { bannerAPI } from '../services/api'
+import { resolveAsset } from '../utils/resolveAsset'
 
 const DEFAULT_LINES = ['Turning Purpose', 'Into Meaningful', 'Impact.']
 const DEFAULT_HERO_IMAGES = [
@@ -71,13 +72,12 @@ export default function Hero() {
 
   // Auto-slide transition for multi-image banner
   const bannerImages = useMemo(() => {
-    if (Array.isArray(banner.images) && banner.images.length > 0) {
-      return banner.images.filter(Boolean)
-    }
-    if (banner.image) {
-      return [banner.image]
-    }
-    return DEFAULT_HERO_IMAGES
+    const raw = Array.isArray(banner.images) && banner.images.length > 0
+      ? banner.images.filter(Boolean)
+      : banner.image
+        ? [banner.image]
+        : DEFAULT_HERO_IMAGES
+    return raw.map((img) => resolveAsset(img))
   }, [banner.images, banner.image])
 
   useEffect(() => {

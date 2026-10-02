@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { useImageReveal } from '../hooks/useImageReveal'
 import { profile } from '../data/profile'
+import { resolveAsset } from '../utils/resolveAsset'
 
 export default function ImageFrame({
   src,
@@ -19,7 +20,8 @@ export default function ImageFrame({
   const frameRef = useRef(null)
   useImageReveal(frameRef)
 
-  const defaultFallback = fallback || profile.storyImage
+  const defaultFallback = resolveAsset(fallback || profile.storyImage)
+  const resolvedSrc = resolveAsset(src || defaultFallback)
 
   const shapeClass = {
     default: 'rounded-2xl',
@@ -41,7 +43,7 @@ export default function ImageFrame({
         trim ? (
           <div className="relative w-full overflow-hidden" style={{ aspectRatio: trim.aspect }}>
             <img
-              src={src || defaultFallback}
+              src={resolvedSrc}
               alt={alt}
               className="absolute inset-x-0 w-full max-w-none"
               style={{ top: trim.top, height: trim.height }}
@@ -55,7 +57,7 @@ export default function ImageFrame({
           </div>
         ) : (
           <img
-            src={src || defaultFallback}
+            src={resolvedSrc}
             alt={alt}
             className="relative block h-auto w-full"
             loading={priority ? 'eager' : 'lazy'}
@@ -73,7 +75,7 @@ export default function ImageFrame({
         >
           <div data-image-zoom className="h-full w-full origin-center">
             <img
-              src={src || defaultFallback}
+              src={resolvedSrc}
               alt={alt}
               className={`h-full w-full object-cover transition-all duration-700 ease-out will-change-transform ${
                 hoverEffect

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowUp, ArrowUpRight, Mail, MapPin, Phone, ShieldCheck, HeartHandshake } from 'lucide-react'
 import { footerLinks, profile, socials } from '../data/profile'
 import { settingsAPI } from '../services/api'
+import { resolveAsset } from '../utils/resolveAsset'
 import Logo from './Logo'
 import ScrollReveal from './ScrollReveal'
 import { lenis } from '../hooks/useLenis'
@@ -137,7 +138,7 @@ export default function Footer() {
           aria-hidden="true"
         >
           <img
-            src={siteSettings.footerCornerImage}
+            src={resolveAsset(siteSettings.footerCornerImage)}
             alt=""
             style={{
               opacity: (siteSettings.footerWatermarkOpacity ?? 18) / 100,

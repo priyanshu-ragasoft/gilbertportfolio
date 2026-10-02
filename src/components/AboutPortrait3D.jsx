@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { gsap, prefersReducedMotion } from '../animations/gsapConfig'
 import { profile } from '../data/profile'
+import { resolveAsset } from '../utils/resolveAsset'
 
 export default function AboutPortrait3D({
   className = '',
@@ -12,7 +13,7 @@ export default function AboutPortrait3D({
   const cardRef = useRef(null)
   const glareRef = useRef(null)
   const badgeRef = useRef(null)
-  const portraitSrc = image || profile.portrait || '/src/assets/images/gilbert-kwizera-lounge-armchair.jpg'
+  const portraitSrc = resolveAsset(image || profile.portrait)
 
   useEffect(() => {
     if (prefersReducedMotion()) return undefined

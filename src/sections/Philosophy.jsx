@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import ScrollReveal from '../components/ScrollReveal'
 import { profile, philosophy as defaultPhilosophy } from '../data/profile'
 import { philosophyAPI } from '../services/api'
+import { resolveAsset } from '../utils/resolveAsset'
 
 // Import all high-res photography assets directly for 100% reliable Vite bundling
 import officeImg from '../assets/images/gilbert-kwizera-office-standing.jpg'
@@ -22,7 +23,7 @@ const resolveBgImage = (img) => {
     img.startsWith('https://') ||
     img.startsWith('/uploads/')
   ) {
-    return img
+    return resolveAsset(img)
   }
   if (img === '/src/assets/images/gilbert-office.jpg' || img.includes('office')) return officeImg
   if (img === '/src/assets/images/gilbert-portrait.jpg' || img.includes('lounge-armchair')) return formalImg
@@ -33,7 +34,7 @@ const resolveBgImage = (img) => {
   if (img.includes('sanjay-dutt') || img.includes('sanjay')) return sanjayImg
   if (img.includes('ccf-uci') || img.includes('uci')) return uciImg
   if (img.includes('pio-ecosystem') || img.includes('pio')) return pioImg
-  return img
+  return resolveAsset(img)
 }
 
 export default function Philosophy() {

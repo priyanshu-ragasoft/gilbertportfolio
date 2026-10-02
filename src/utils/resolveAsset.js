@@ -62,8 +62,11 @@ export function resolveAsset(src) {
   if (typeof src === 'object' && src?.src) return src.src
   if (typeof src !== 'string') return src
 
+  const localUpload = src.match(/^https?:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?(\/uploads\/[^?#]+)/i)
+  if (localUpload) src = localUpload[1]
+
   // Extract filename
-  const filename = src.split('/').pop().split('\\').pop()
+  const filename = src.split('/').pop().split('\\').pop().split('?')[0]
   if (ASSET_MAP[filename]) {
     return ASSET_MAP[filename]
   }

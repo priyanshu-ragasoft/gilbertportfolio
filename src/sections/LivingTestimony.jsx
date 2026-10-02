@@ -4,6 +4,7 @@ import ScrollReveal from '../components/ScrollReveal'
 import AppleJackieTestimony from '../components/LivingTestimony/AppleJackieTestimony'
 import GladysNserekoTestimony from '../components/LivingTestimony/GladysNserekoTestimony'
 import { livingTestimonyAPI } from '../services/api'
+import { resolveAsset } from '../utils/resolveAsset'
 import jack1Image from '../assets/images/jack1.jpg'
 import paImage from '../assets/images/pa.jpeg'
 
@@ -187,7 +188,7 @@ export default function LivingTestimony() {
                     }`}
                   >
                     <img
-                      src={t.image || paImage}
+                      src={t.image ? resolveAsset(t.image) : paImage}
                       alt={t.name}
                       className="h-full w-full object-cover object-center"
                     />

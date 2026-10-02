@@ -10,6 +10,7 @@ import {
   profile,
 } from '../data/profile'
 import { introAPI } from '../services/api'
+import { resolveAsset } from '../utils/resolveAsset'
 
 const DEFAULT_INTRO_DATA = {
   indexNumber: '01',
@@ -151,7 +152,7 @@ export default function Introduction() {
               >
                 {/* Full-color portrait revealed on hover */}
                 <img
-                  src={data.shutterImage || profile.office}
+                  src={resolveAsset(data.shutterImage || profile.office)}
                   alt="Gilbert Kwizera"
                   aria-hidden="true"
                   className={`pointer-events-none absolute inset-0 h-full w-full object-cover object-[center_18%] transition-all duration-700 ease-[cubic-bezier(0.2,1,0.3,1)] ${plateOpen ? 'scale-105 opacity-100' : 'scale-100 opacity-0'}`}
