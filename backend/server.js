@@ -31,11 +31,12 @@ import livingTestimonyRoutes from './routes/livingTestimonyRoutes.js'
 
 import mongoose from 'mongoose'
 
-// Load environment variables
-dotenv.config()
-
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+// Load environment variables. backend/.env is used locally; Vercel injects its own.
+dotenv.config()
+dotenv.config({ path: path.join(__dirname, '.env') })
 
 // Initialize Express App
 const app = express()
@@ -90,17 +91,30 @@ if (fs.existsSync(uploadsPath)) {
 
 // Serverless DB Connection & Initialization Middleware
 app.use(async (req, res, next) => {
+  if (req.path === '/api/health') return next()
+
   try {
     await ensureAdminAndDB()
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({
+        success: false,
+        message: 'Database is not connected.',
+      })
+    }
+    next()
   } catch (err) {
     console.warn('[DB Middleware Notice]:', err.message)
+    return res.status(503).json({
+      success: false,
+      message: err.message || 'Database is not connected.',
+    })
   }
-  next()
 })
 
 // Health check route
 app.get('/api/health', (req, res) => {
-  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'connecting'
+  const states = ['disconnected', 'connected', 'connecting', 'disconnecting']
+  const dbStatus = states[mongoose.connection.readyState] || 'disconnected'
   res.status(200).json({
     status: 'online',
     db: dbStatus,
