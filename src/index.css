@@ -87,10 +87,6 @@
   }
 
   @media (max-width: 639px) {
-    .admin-shell .whitespace-nowrap {
-      white-space: normal;
-    }
-
     .admin-shell main .flex.shrink-0 {
       width: 100%;
     }

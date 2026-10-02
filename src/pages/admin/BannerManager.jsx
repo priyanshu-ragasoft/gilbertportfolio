@@ -370,7 +370,7 @@ export default function BannerManager() {
       {/* Grid: Editor Form & Live Simulator */}
       <div className="grid gap-8 lg:grid-cols-12 items-start">
         {/* Left Column: Form Controls */}
-        <form onSubmit={handleSave} className="lg:col-span-6 min-w-0 space-y-6 rounded-3xl border border-white/10 bg-[#14120e] p-4 sm:p-7 shadow-xl">
+        <form onSubmit={handleSave} className="min-w-0 space-y-6 overflow-hidden rounded-3xl border border-white/10 bg-[#14120e] p-4 shadow-xl sm:p-7 lg:col-span-6">
           <div className="space-y-6">
             {/* Multi-Image Slider & Upload Section */}
             <div className="rounded-2xl border border-white/10 bg-black/40 p-4 sm:p-5 space-y-4">
@@ -421,9 +421,11 @@ export default function BannerManager() {
                     <div className="h-12 w-14 shrink-0 overflow-hidden rounded-lg bg-black">
                       <img src={imgSrc} alt={`Slide ${idx + 1}`} className="h-full w-full object-cover" />
                     </div>
-                    <div className="flex-1 min-w-0 pr-6">
+                    <div className="min-w-0 flex-1 pr-6">
                       <span className="block text-[0.68rem] font-semibold text-white">Slide {idx + 1}</span>
-                      <span className="block text-[0.62rem] text-mist/50 truncate font-mono">{imgSrc}</span>
+                      <span className="block truncate font-mono text-[0.62rem] text-mist/50">
+                        {String(imgSrc).split('/').pop()}
+                      </span>
                     </div>
 
                     <button
