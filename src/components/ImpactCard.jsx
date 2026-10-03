@@ -12,7 +12,7 @@ function canTilt() {
   )
 }
 
-export default function ImpactCard({ area, featured = false }) {
+export default function ImpactCard({ area }) {
   const faceRef = useRef(null)
   const edgeRef = useRef(null)
 
@@ -61,13 +61,13 @@ export default function ImpactCard({ area, featured = false }) {
       data-cursor="view"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`group h-full ${featured ? 'lg:min-h-[36rem]' : ''}`}
+      className="group h-full flex flex-col"
       style={{ perspective: '1200px' }}
     >
       <div
         ref={faceRef}
         data-card-face
-        className="relative flex h-full min-h-full flex-col rounded-2xl border border-line bg-gradient-to-b from-[#faf8f4] to-[#f4efe8] p-2.5 transition-[border-color,box-shadow] duration-500 ease-out hover:border-bronze/40 hover:shadow-[0_22px_36px_-28px_rgba(20,19,17,0.55),0_14px_24px_-20px_rgba(141,112,67,0.28)] sm:rounded-3xl sm:p-3.5"
+        className="relative flex h-full min-h-full flex-1 flex-col rounded-2xl border border-line bg-gradient-to-b from-[#faf8f4] to-[#f4efe8] p-2.5 transition-[border-color,box-shadow] duration-500 ease-out hover:border-bronze/40 hover:shadow-[0_22px_36px_-28px_rgba(20,19,17,0.55),0_14px_24px_-20px_rgba(141,112,67,0.28)] sm:rounded-3xl sm:p-3.5"
         style={{ transformStyle: 'preserve-3d' }}
       >
         <div
@@ -84,7 +84,7 @@ export default function ImpactCard({ area, featured = false }) {
         />
 
       <div
-        className="relative overflow-hidden rounded-xl sm:rounded-2xl"
+        className="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-xl sm:rounded-2xl"
         style={{ transform: 'translateZ(12px)' }}
       >
         <ImageFrame
@@ -95,7 +95,7 @@ export default function ImpactCard({ area, featured = false }) {
           trim={area.imageTrim}
           parallax={area.imageFit !== 'contain'}
           position={area.imageFit === 'contain' ? 'center' : undefined}
-          className={`${area.imageFit === 'contain' ? 'bg-transparent' : featured ? 'aspect-[16/10] lg:aspect-[16/11]' : 'aspect-[16/10]'} w-full`}
+          className="h-full w-full"
         />
 
         {/* Dark Vignette Overlay for Crisp Contrast */}

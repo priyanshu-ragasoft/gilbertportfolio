@@ -155,7 +155,7 @@ export default function Impact() {
 
         <div data-impact-grid className="mt-20 grid gap-5 lg:grid-cols-2">
           {activeAreas.map((area, index) => (
-            <ImpactCard key={area.slug || index} area={area} featured={index === 0} />
+            <ImpactCard key={area.slug || index} area={area} />
           ))}
         </div>
       </Container>
