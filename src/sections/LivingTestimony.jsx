@@ -227,7 +227,10 @@ export default function LivingTestimony() {
 
         {/* Dynamic Story Display */}
         <div className="transition-all duration-500">
-          <GladysNserekoTestimony survivorData={currentSurvivor} />
+          <GladysNserekoTestimony
+            key={`${currentSurvivor?.id || 'survivor'}-${currentSurvivor?.name || ''}-${currentSurvivor?.eyebrow || ''}-${currentSurvivor?.badge || ''}-${currentSurvivor?.accentColor || ''}`}
+            survivorData={currentSurvivor}
+          />
         </div>
       </div>
     </section>

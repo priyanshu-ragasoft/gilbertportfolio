@@ -399,30 +399,20 @@ export default function GladysNserekoTestimony({ survivorData }) {
 
       {/* Header Info */}
       <div className="text-center max-w-3xl mx-auto">
-        <ScrollReveal
-          type="text"
-          as="div"
-          className={`inline-flex items-center gap-2 rounded-full border ${theme.badgeBorder} ${theme.badgeBg} px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] ${theme.badgeText} backdrop-blur-md`}
+        <div
+          className={`inline-flex items-center gap-2 rounded-full border ${theme.badgeBorder} ${theme.badgeBg} px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] ${theme.badgeText} backdrop-blur-md shadow-sm whitespace-nowrap`}
         >
-          <Heart className={`h-3.5 w-3.5 ${theme.heartIcon}`} />
-          {survivorData?.eyebrow || `Living Testimony · ${survivorBadge}`}
-        </ScrollReveal>
+          <Heart className={`h-3.5 w-3.5 shrink-0 ${theme.heartIcon}`} />
+          <span className="whitespace-nowrap">{survivorData?.eyebrow || `Living Testimony · ${survivorBadge}`}</span>
+        </div>
 
-        <ScrollReveal
-          type="text"
-          as="h2"
-          className="display mt-5 text-4xl sm:text-6xl md:text-7xl text-paper"
-        >
+        <h2 className="display mt-5 text-4xl sm:text-6xl md:text-7xl text-paper">
           {survivorName}
-        </ScrollReveal>
+        </h2>
 
-        <ScrollReveal
-          type="text"
-          as="p"
-          className="mt-4 text-lg sm:text-xl text-paper/85 font-serif italic max-w-2xl mx-auto leading-relaxed"
-        >
+        <p className="mt-4 text-lg sm:text-xl text-paper/85 font-serif italic max-w-2xl mx-auto leading-relaxed">
           {survivorQuote}
-        </ScrollReveal>
+        </p>
       </div>
 
       {/* Top Section: Photo Showcase + Verbatim Narrative */}

@@ -1073,8 +1073,8 @@ export default function TestimoniesManager() {
                 ? 'border-orange-500/50 shadow-orange-500/10'
                 : 'border-rose-500/50 shadow-rose-500/10'
             }`}>
-              <div className="flex items-center justify-between">
-                <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest ${
+              <div className="flex items-center justify-between gap-2">
+                <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest whitespace-nowrap truncate max-w-[280px] ${
                   currentSurvivor.accentColor === 'amber'
                     ? 'border-amber-500/30 bg-amber-500/10 text-amber-300'
                     : currentSurvivor.accentColor === 'emerald'
@@ -1087,10 +1087,10 @@ export default function TestimoniesManager() {
                     ? 'border-orange-500/30 bg-orange-500/10 text-orange-300'
                     : 'border-rose-500/30 bg-rose-500/10 text-rose-300'
                 }`}>
-                  <Heart className="h-3 w-3" />
-                  {currentSurvivor.eyebrow || `Living Testimony · ${currentSurvivor.badge || 'Cancer Survivor'}`}
+                  <Heart className="h-3 w-3 shrink-0" />
+                  <span className="whitespace-nowrap truncate">{currentSurvivor.eyebrow || `Living Testimony · ${currentSurvivor.badge || 'Cancer Survivor'}`}</span>
                 </span>
-                <span className="text-[11px] text-mist/60 font-mono">{currentSurvivor.year}</span>
+                <span className="text-[11px] text-mist/60 font-mono shrink-0">{currentSurvivor.year}</span>
               </div>
 
               <div className="flex items-start gap-4">
