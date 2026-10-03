@@ -1,20 +1,4 @@
-/**
- * Cursor — premium custom cursor for desktop.
- *
- * States:
- * - Default:  small gold ring dot
- * - Link / button hover: ring expands to 2× scale
- * - Project / impact card hover: shows "VIEW" text, expands to 3× scale
- * - Pointer down: slight scale-down (tactile press feel)
- *
- * Uses gsap.quickTo for buttery smooth following.
- * The wrapper element carries data-cursor-el so the hero scroll animation
- * can subtly scale the cursor during the fragmentation phase.
- *
- * Disabled on:
- * - Touch / coarse pointer devices
- * - prefers-reduced-motion
- */
+
 import { useEffect, useRef } from 'react'
 import { gsap, prefersReducedMotion } from '../animations/gsapConfig'
 

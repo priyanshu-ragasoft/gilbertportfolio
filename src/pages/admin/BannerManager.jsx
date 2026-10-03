@@ -386,7 +386,7 @@ export default function BannerManager() {
                 </div>
 
                 {/* Upload from PC Button */}
-                <div className="w-full sm:w-auto">
+                <div className="w-full sm:w-auto shrink-0">
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -397,12 +397,12 @@ export default function BannerManager() {
                   />
                   <label
                     htmlFor="banner-file-input"
-                    className={`inline-flex w-full items-center justify-center gap-1.5 cursor-pointer rounded-xl bg-gradient-to-r from-[#8d7043] to-[#C9A15A] px-3.5 py-2 text-xs font-semibold text-black uppercase tracking-wider hover:opacity-90 transition-opacity sm:w-auto ${
+                    className={`inline-flex w-full items-center justify-center gap-1.5 cursor-pointer rounded-xl bg-gradient-to-r from-[#8d7043] to-[#C9A15A] px-3.5 py-2 text-xs font-semibold text-black uppercase tracking-wider hover:opacity-90 transition-opacity sm:w-auto whitespace-nowrap shrink-0 ${
                       uploading ? 'opacity-50 pointer-events-none' : ''
                     }`}
                   >
-                    <Upload className="h-3.5 w-3.5" />
-                    <span>{uploading ? 'Uploading...' : 'Upload from PC'}</span>
+                    <Upload className="h-3.5 w-3.5 shrink-0" />
+                    <span className="whitespace-nowrap">{uploading ? 'Uploading...' : 'Upload from PC'}</span>
                   </label>
                 </div>
               </div>

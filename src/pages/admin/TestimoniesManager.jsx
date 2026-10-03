@@ -732,10 +732,10 @@ export default function TestimoniesManager() {
                     type="button"
                     onClick={() => survivorFileRef.current?.click()}
                     disabled={uploadingImage}
-                    className="flex items-center justify-center gap-2 rounded border border-rose-500/50 bg-rose-500/10 px-4 py-2 text-xs font-semibold text-rose-200 hover:bg-rose-500/20 transition-colors shrink-0"
+                    className="flex items-center justify-center gap-2 rounded border border-rose-500/50 bg-rose-500/10 px-4 py-2 text-xs font-semibold text-rose-200 hover:bg-rose-500/20 transition-colors shrink-0 whitespace-nowrap"
                   >
-                    <Upload className="h-4 w-4" />
-                    <span>{uploadingImage ? 'Uploading...' : 'Upload New Photo'}</span>
+                    <Upload className="h-4 w-4 shrink-0" />
+                    <span className="whitespace-nowrap">{uploadingImage ? 'Uploading...' : 'Upload New Photo'}</span>
                   </button>
 
                   <div className="relative flex-1">
