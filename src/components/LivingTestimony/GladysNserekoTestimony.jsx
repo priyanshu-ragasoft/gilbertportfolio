@@ -275,7 +275,8 @@ const GLADYS_TIMELINE_STAGES = [
 
 export default function GladysNserekoTestimony({ survivorData }) {
   const theme = COLOR_THEMES[survivorData?.accentColor] || COLOR_THEMES.rose
-  const stages = survivorData?.milestones?.length ? survivorData.milestones : GLADYS_TIMELINE_STAGES
+  const rawStages = survivorData?.milestones?.length ? survivorData.milestones : GLADYS_TIMELINE_STAGES
+  const stages = rawStages.filter((stg) => stg.enabled !== false)
   const survivorName = survivorData?.name || 'Mrs. Gladys Nsereko'
   const survivorBadge = survivorData?.badge || 'Breast Cancer Survivor'
   const survivorAge = survivorData?.age || '70 Years Old · Turned 70 on September 5th'
@@ -309,10 +310,16 @@ export default function GladysNserekoTestimony({ survivorData }) {
   const navContainerRef = useRef(null)
   const buttonRefs = useRef([])
 
-  // Reset active slide if survivor changes
+  // Reset active slide if survivor changes or slide index is out of bounds
   useEffect(() => {
     setActiveSlide(0)
   }, [survivorData?.id])
+
+  useEffect(() => {
+    if (activeSlide >= stages.length && stages.length > 0) {
+      setActiveSlide(0)
+    }
+  }, [stages.length, activeSlide])
 
   // Auto-scroll horizontal milestone buttons container
   useEffect(() => {
@@ -714,7 +721,17 @@ export default function GladysNserekoTestimony({ survivorData }) {
         {/* Quick-Select Milestone Navigation */}
         <div
           ref={navContainerRef}
-          className="mt-4 flex sm:grid sm:grid-cols-5 gap-2 sm:gap-3 overflow-x-auto pb-2 sm:pb-0 scrollbar-none snap-x scroll-smooth"
+          className={`mt-4 flex sm:grid gap-2 sm:gap-3 overflow-x-auto pb-2 sm:pb-0 scrollbar-none snap-x scroll-smooth ${
+            stages.length === 1
+              ? 'sm:grid-cols-1 max-w-xs'
+              : stages.length === 2
+              ? 'sm:grid-cols-2 max-w-xl'
+              : stages.length === 3
+              ? 'sm:grid-cols-3'
+              : stages.length === 4
+              ? 'sm:grid-cols-4'
+              : 'sm:grid-cols-5'
+          }`}
         >
           {stages.map((stg, i) => (
             <button

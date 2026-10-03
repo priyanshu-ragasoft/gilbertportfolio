@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   AlertCircle,
   Eye,
+  EyeOff,
   Plus,
   Trash2,
   User,
@@ -41,6 +42,7 @@ const DEFAULT_GLADYS_MILESTONES = [
       'In 2009, having heard radio health programs advising women to regularly check their breasts, Gladys examined her right breast while bathing. Noticing an unusual bloody discharge from the nipple without lump or pain, she acted decisively and sought immediate medical attention at Nsambya Hospital.',
     highlight:
       '“I followed that advice and examined my right breast... When I pressed the nipple, I noticed an unusual discharge mixed with blood. I immediately went to Nsambya Hospital.”',
+    enabled: true,
   },
   {
     step: '02',
@@ -53,6 +55,7 @@ const DEFAULT_GLADYS_MILESTONES = [
       'Detailed clinical examinations and a biopsy at Nsambya Hospital confirmed Stage 2 breast cancer. To prevent the cancer from spreading further, the surgical team advised immediate mastectomy surgery. Gladys underwent successful surgery and prepared for post-operative chemotherapy.',
     highlight:
       '“The results confirmed that I had breast cancer at Stage 2. The doctors advised that the affected breast needed to be removed... I underwent surgery.”',
+    enabled: true,
   },
   {
     step: '03',
@@ -65,6 +68,7 @@ const DEFAULT_GLADYS_MILESTONES = [
       'Chemotherapy was required at Mulago Hospital for 6 monthly cycles. Weakened by treatment, Gladys received a life-saving intervention when Mr. Jimmy (Gilbert Kevin Jimmy Kwizera) learned of her situation through Bishop Paul Ssemogerere. Mr. Jimmy funded all essential chemotherapy medicines for the entire duration of her treatment.',
     highlight:
       '“For all six cycles of chemotherapy, Mr. Jimmy continued supporting me with the cost of my medicines. His assistance made a significant difference when the financial burden was overwhelming.”',
+    enabled: true,
   },
   {
     step: '04',
@@ -77,6 +81,7 @@ const DEFAULT_GLADYS_MILESTONES = [
       'Following chemotherapy, Gladys completed six sessions of radiotherapy for severe back pain. In 2013, to rule out bone recurrence, she traveled with her son’s support to Aga Khan Hospital in Nairobi and abroad for advanced PET scans, which confirmed she was completely cancer-free.',
     highlight:
       '“With the help of my son, I was able to get an appointment at Aga Khan Hospital in Nairobi, where I underwent the scan... The results indicated that I did not have cancer.”',
+    enabled: true,
   },
   {
     step: '05',
@@ -89,6 +94,7 @@ const DEFAULT_GLADYS_MILESTONES = [
       'Having celebrated her 70th birthday on September 5th, Gladys continues regular check-ups while sharing her story. She stands as living proof that listening to your body, seeking immediate medical care, and compassionate benefactors make survival possible.',
     highlight:
       '“Mr. Jimmy was the person who came forward to help me when I needed support the most... ensuring people facing cancer are not left alone because they cannot afford treatment.”',
+    enabled: true,
   },
 ]
 
@@ -763,24 +769,25 @@ export default function TestimoniesManager() {
             </div>
           </div>
 
-          {/* Card 3: The Path to Recovery (5 Vital Milestones) */}
+          {/* Card 3: The Path to Recovery (Vital Milestones) */}
           <div className="rounded-xl border border-white/10 bg-[#161412] p-6 shadow-xl space-y-6">
             <div className="flex items-center justify-between pb-3 border-b border-white/5">
               <div className="flex items-center gap-2">
                 <Activity className="h-4 w-4 text-rose-400" />
                 <h2 className="font-serif text-lg text-paper">
-                  The Path to Recovery (5 Vital Milestones)
+                  The Path to Recovery ({currentMilestones.filter((m) => m.enabled !== false).length} of {currentMilestones.length} Visible in Slider)
                 </h2>
               </div>
               <span className="text-xs text-[#8a847c]">
-                Editing Milestone {currentMilestone?.step || '01'} of 05
+                Editing Milestone {currentMilestone?.step || '01'} of {String(currentMilestones.length).padStart(2, '0')}
               </span>
             </div>
 
-            {/* Milestone Tabs */}
+            {/* Milestone Tabs with Active/Enabled Indicators */}
             <div className="grid grid-cols-2 xs:grid-cols-5 gap-1.5 bg-[#0d0c0a] p-1.5 rounded-lg border border-white/5">
               {currentMilestones.map((m, mIdx) => {
                 const isActive = mIdx === activeMilestoneIdx
+                const isEnabled = m?.enabled !== false
                 return (
                   <button
                     key={m.step || mIdx}
@@ -789,14 +796,76 @@ export default function TestimoniesManager() {
                     className={`flex flex-col items-center py-2 px-1 rounded transition-all text-center ${
                       isActive
                         ? 'bg-rose-500/25 border border-rose-500/60 text-paper font-semibold shadow-md'
-                        : 'text-mist/70 hover:bg-white/5 hover:text-paper border border-transparent'
+                        : isEnabled
+                        ? 'text-mist/80 hover:bg-white/5 hover:text-paper border border-transparent'
+                        : 'text-mist/35 hover:bg-white/5 hover:text-mist/60 border border-transparent opacity-60'
                     }`}
                   >
-                    <span className="text-[10px] font-mono text-rose-400">{m.step}</span>
-                    <span className="text-[10px] font-medium truncate max-w-full">{m.shortTitle}</span>
+                    <div className="flex items-center gap-1">
+                      <span className={`text-[10px] font-mono ${isEnabled ? 'text-rose-400' : 'text-mist/40 line-through'}`}>{m.step}</span>
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${isEnabled ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]' : 'bg-rose-500/50'}`}
+                        title={isEnabled ? 'ON (Visible in Slider)' : 'OFF (Hidden from Slider)'}
+                      />
+                    </div>
+                    <span className="text-[10px] font-medium truncate max-w-full">{m.shortTitle || `Milestone ${m.step}`}</span>
                   </button>
                 )
               })}
+            </div>
+
+            {/* Milestone Slider Toggle ON/OFF Switch */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/40 p-4 transition-all hover:border-white/20">
+              <div className="flex items-start sm:items-center gap-3">
+                <div
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors ${
+                    currentMilestone?.enabled !== false
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                  }`}
+                >
+                  {currentMilestone?.enabled !== false ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-paper">
+                      Slider Visibility (Milestone {currentMilestone?.step})
+                    </p>
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                        currentMilestone?.enabled !== false
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                          : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                      }`}
+                    >
+                      {currentMilestone?.enabled !== false ? '● ON (Visible)' : '○ OFF (Hidden)'}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-mist/70 mt-0.5">
+                    {currentMilestone?.enabled !== false
+                      ? 'Ye milestone live website par recovery slider me display hoga.'
+                      : 'Ye milestone live website ke recovery slider se hide rahega (Off).'}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  handleMilestoneFieldChange('enabled', currentMilestone?.enabled === false ? true : false)
+                }
+                className={`relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                  currentMilestone?.enabled !== false ? 'bg-emerald-500' : 'bg-white/20'
+                }`}
+                role="switch"
+                aria-checked={currentMilestone?.enabled !== false}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
+                    currentMilestone?.enabled !== false ? 'translate-x-7' : 'translate-x-0'
+                  }`}
+                />
+              </button>
             </div>
 
             {/* Active Milestone Fields */}

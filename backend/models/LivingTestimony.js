@@ -9,6 +9,7 @@ const milestoneSchema = new mongoose.Schema({
   subtitle: { type: String, default: '' },
   description: { type: String, default: '' },
   highlight: { type: String, default: '' },
+  enabled: { type: Boolean, default: true },
 })
 
 const survivorSchema = new mongoose.Schema({
