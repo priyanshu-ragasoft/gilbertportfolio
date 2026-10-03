@@ -579,212 +579,220 @@ export default function GladysNserekoTestimony({ survivorData }) {
         </div>
       </div>
 
-      {/* FULL WIDTH HORIZONTAL SLIDER: Key Journey Milestones */}
-      <div className="mt-20 border-t border-white/10 pt-16">
-        {/* Slider Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-          <div>
-            <div className="flex items-center gap-2">
-              <p className={`text-xs font-semibold uppercase tracking-[0.25em] ${theme.milestoneEyebrow}`}>
-                Key Journey Milestones
+      {/* FULL WIDTH HORIZONTAL SLIDER: Key Journey Milestones (Only rendered when ON and has active stages) */}
+      {survivorData?.showMilestones !== false && stages.length > 0 && (
+        <div className="mt-20 border-t border-white/10 pt-16">
+          {/* Slider Header Bar */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+              <div className="flex items-center gap-2">
+                <p className={`text-xs font-semibold uppercase tracking-[0.25em] ${theme.milestoneEyebrow}`}>
+                  Key Journey Milestones
+                </p>
+              </div>
+
+              <h3 className="display mt-2 text-3xl sm:text-5xl text-paper">
+                {survivorData?.milestonesHeading || 'The Path to Recovery'}
+              </h3>
+              <p className="text-sm text-mist mt-1">
+                {survivorData?.milestonesSub || `Explore the ${stages.length} vital chapters of ${survivorName}’s courageous recovery`}
               </p>
             </div>
 
-            <h3 className="display mt-2 text-3xl sm:text-5xl text-paper">
-              {survivorData?.milestonesHeading || 'The Path to Recovery'}
-            </h3>
-            <p className="text-sm text-mist mt-1">
-              {survivorData?.milestonesSub || `Explore the ${stages.length} vital chapters of ${survivorName}’s courageous recovery`}
-            </p>
+            {/* Slider Navigation Controls */}
+            {stages.length > 1 && (
+              <div className="flex items-center gap-2 self-start sm:self-auto">
+                <button
+                  onClick={prevSlide}
+                  aria-label="Previous milestone"
+                  className={`flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-paper transition-all duration-300 ${theme.navBtnHover} hover:scale-105 active:scale-95`}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  aria-label="Next milestone"
+                  className={`flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-paper transition-all duration-300 ${theme.navBtnHover} hover:scale-105 active:scale-95`}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Slider Navigation Controls */}
-          <div className="flex items-center gap-2 self-start sm:self-auto">
-            <button
-              onClick={prevSlide}
-              aria-label="Previous milestone"
-              className={`flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-paper transition-all duration-300 ${theme.navBtnHover} hover:scale-105 active:scale-95`}
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              onClick={nextSlide}
-              aria-label="Next milestone"
-              className={`flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-paper transition-all duration-300 ${theme.navBtnHover} hover:scale-105 active:scale-95`}
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Full Width Smooth Horizontal Carousel Container */}
-        <div
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
-          className={`relative overflow-hidden rounded-3xl border ${theme.carouselBorder} bg-gradient-to-br from-white/[0.08] via-white/[0.03] to-white/[0.01] shadow-2xl backdrop-blur-xl select-none`}
-        >
-          {/* Ambient Glow */}
-          <div className={`absolute -right-20 -top-20 h-64 w-64 rounded-full ${theme.carouselGlow} blur-[80px] pointer-events-none`} />
-
-          {/* Horizontal Moving Track */}
+          {/* Full Width Smooth Horizontal Carousel Container */}
           <div
-            className="flex w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
-            style={{
-              transform: `translateX(-${activeSlide * 100}%)`,
-            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            className={`relative overflow-hidden rounded-3xl border ${theme.carouselBorder} bg-gradient-to-br from-white/[0.08] via-white/[0.03] to-white/[0.01] shadow-2xl backdrop-blur-xl select-none`}
           >
-            {stages.map((stg) => (
-              <div
-                key={stg.step}
-                className="min-w-full w-full shrink-0 p-5 sm:p-8 md:p-12"
-              >
-                <div className="grid gap-6 sm:gap-8 lg:grid-cols-12 items-center">
-                  {/* Left Info */}
-                  <div className="lg:col-span-5 space-y-3 sm:space-y-4">
-                    <div className="flex items-center gap-3">
-                      <span className={`flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl ${theme.stepNumber} font-bold text-base sm:text-lg font-mono shadow-lg`}>
-                        {stg.step}
-                      </span>
-                      <div>
-                        <span className={`inline-block rounded-full ${theme.stepTag} px-2.5 sm:px-3 py-0.5 text-[11px] sm:text-xs font-medium border`}>
-                          {stg.tag}
+            {/* Ambient Glow */}
+            <div className={`absolute -right-20 -top-20 h-64 w-64 rounded-full ${theme.carouselGlow} blur-[80px] pointer-events-none`} />
+
+            {/* Horizontal Moving Track */}
+            <div
+              className="flex w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+              style={{
+                transform: `translateX(-${activeSlide * 100}%)`,
+              }}
+            >
+              {stages.map((stg) => (
+                <div
+                  key={stg.step}
+                  className="min-w-full w-full shrink-0 p-5 sm:p-8 md:p-12"
+                >
+                  <div className="grid gap-6 sm:gap-8 lg:grid-cols-12 items-center">
+                    {/* Left Info */}
+                    <div className="lg:col-span-5 space-y-3 sm:space-y-4">
+                      <div className="flex items-center gap-3">
+                        <span className={`flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl ${theme.stepNumber} font-bold text-base sm:text-lg font-mono shadow-lg`}>
+                          {stg.step}
                         </span>
-                        <p className="text-[11px] sm:text-xs text-mist font-mono mt-0.5">
-                          Year: {stg.year}
+                        <div>
+                          <span className={`inline-block rounded-full ${theme.stepTag} px-2.5 sm:px-3 py-0.5 text-[11px] sm:text-xs font-medium border`}>
+                            {stg.tag}
+                          </span>
+                          <p className="text-[11px] sm:text-xs text-mist font-mono mt-0.5">
+                            Year: {stg.year}
+                          </p>
+                        </div>
+                      </div>
+
+                      <h4 className="font-serif text-2xl sm:text-4xl lg:text-5xl text-paper font-semibold leading-tight">
+                        {stg.title}
+                      </h4>
+
+                      <p className={`text-xs sm:text-sm ${theme.stepSubtitle} font-medium`}>
+                        {stg.subtitle}
+                      </p>
+                    </div>
+
+                    {/* Right Info */}
+                    <div className="lg:col-span-7 space-y-4 sm:space-y-5 lg:border-l lg:border-white/10 lg:pl-8">
+                      <p className="text-sm sm:text-base md:text-lg leading-relaxed text-paper/90">
+                        {stg.description}
+                      </p>
+
+                      <div className="rounded-2xl border border-white/10 bg-ink/60 p-4 sm:p-5 backdrop-blur-sm">
+                        <Quote className={`h-4 w-4 sm:h-5 sm:w-5 ${theme.slideQuoteIcon} mb-1`} />
+                        <p className={`text-xs sm:text-sm md:text-base italic ${theme.slideQuoteText} font-serif leading-relaxed`}>
+                          {stg.highlight}
                         </p>
                       </div>
                     </div>
-
-                    <h4 className="font-serif text-2xl sm:text-4xl lg:text-5xl text-paper font-semibold leading-tight">
-                      {stg.title}
-                    </h4>
-
-                    <p className={`text-xs sm:text-sm ${theme.stepSubtitle} font-medium`}>
-                      {stg.subtitle}
-                    </p>
-                  </div>
-
-                  {/* Right Info */}
-                  <div className="lg:col-span-7 space-y-4 sm:space-y-5 lg:border-l lg:border-white/10 lg:pl-8">
-                    <p className="text-sm sm:text-base md:text-lg leading-relaxed text-paper/90">
-                      {stg.description}
-                    </p>
-
-                    <div className="rounded-2xl border border-white/10 bg-ink/60 p-4 sm:p-5 backdrop-blur-sm">
-                      <Quote className={`h-4 w-4 sm:h-5 sm:w-5 ${theme.slideQuoteIcon} mb-1`} />
-                      <p className={`text-xs sm:text-sm md:text-base italic ${theme.slideQuoteText} font-serif leading-relaxed`}>
-                        {stg.highlight}
-                      </p>
-                    </div>
                   </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Smooth Running Progress Track Indicator */}
+            {stages.length > 1 && (
+              <div className="px-5 sm:px-12 pb-5 sm:pb-8 pt-3 sm:pt-4 border-t border-white/10 flex gap-2 sm:gap-2.5">
+                {stages.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveSlide(i)}
+                    aria-label={`Go to slide ${i + 1}`}
+                    className="group relative h-1.5 sm:h-2 flex-1 overflow-hidden rounded-full bg-white/15 transition-all hover:bg-white/25"
+                  >
+                    {/* Completed slides */}
+                    {i < activeSlide && (
+                      <div className={`h-full w-full rounded-full ${theme.progressBarCompleted}`} />
+                    )}
+
+                    {/* Active running slide */}
+                    {i === activeSlide && (
+                      <div
+                        key={`progress-survivor-${survivorData?.id}-${activeSlide}`}
+                        style={{
+                          animation: `runningGladysBar 5.5s linear forwards`,
+                          animationPlayState: isHovered ? 'paused' : 'running',
+                        }}
+                        className={`h-full rounded-full ${theme.progressBarActive}`}
+                      />
+                    )}
+
+                    {/* Upcoming slides */}
+                    {i > activeSlide && <div className="h-full w-0" />}
+                  </button>
+                ))}
               </div>
-            ))}
+            )}
           </div>
 
-          {/* Smooth Running Progress Track Indicator */}
-          <div className="px-5 sm:px-12 pb-5 sm:pb-8 pt-3 sm:pt-4 border-t border-white/10 flex gap-2 sm:gap-2.5">
-            {stages.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveSlide(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className="group relative h-1.5 sm:h-2 flex-1 overflow-hidden rounded-full bg-white/15 transition-all hover:bg-white/25"
-              >
-                {/* Completed slides */}
-                {i < activeSlide && (
-                  <div className={`h-full w-full rounded-full ${theme.progressBarCompleted}`} />
-                )}
-
-                {/* Active running slide */}
-                {i === activeSlide && (
-                  <div
-                    key={`progress-survivor-${survivorData?.id}-${activeSlide}`}
-                    style={{
-                      animation: `runningGladysBar 5.5s linear forwards`,
-                      animationPlayState: isHovered ? 'paused' : 'running',
-                    }}
-                    className={`h-full rounded-full ${theme.progressBarActive}`}
-                  />
-                )}
-
-                {/* Upcoming slides */}
-                {i > activeSlide && <div className="h-full w-0" />}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Quick-Select Milestone Navigation */}
-        <div
-          ref={navContainerRef}
-          className={`mt-4 flex sm:grid gap-2 sm:gap-3 overflow-x-auto pb-2 sm:pb-0 scrollbar-none snap-x scroll-smooth ${
-            stages.length === 1
-              ? 'sm:grid-cols-1 max-w-xs'
-              : stages.length === 2
-              ? 'sm:grid-cols-2 max-w-xl'
-              : stages.length === 3
-              ? 'sm:grid-cols-3'
-              : stages.length === 4
-              ? 'sm:grid-cols-4'
-              : 'sm:grid-cols-5'
-          }`}
-        >
-          {stages.map((stg, i) => (
-            <button
-              key={stg.step}
-              ref={(el) => (buttonRefs.current[i] = el)}
-              onClick={() => setActiveSlide(i)}
-              className={`flex shrink-0 sm:shrink flex-col items-start rounded-xl sm:rounded-2xl p-3 sm:p-4 text-left transition-all duration-300 min-w-[130px] sm:min-w-0 snap-center ${
-                activeSlide === i
-                  ? `${theme.quickNavActive} scale-[1.02]`
-                  : 'bg-white/[0.03] border border-white/10 text-mist hover:bg-white/[0.06] hover:text-paper hover:border-white/20'
+          {/* Quick-Select Milestone Navigation */}
+          {stages.length > 1 && (
+            <div
+              ref={navContainerRef}
+              className={`mt-4 flex sm:grid gap-2 sm:gap-3 overflow-x-auto pb-2 sm:pb-0 scrollbar-none snap-x scroll-smooth ${
+                stages.length === 1
+                  ? 'sm:grid-cols-1 max-w-xs'
+                  : stages.length === 2
+                  ? 'sm:grid-cols-2 max-w-xl'
+                  : stages.length === 3
+                  ? 'sm:grid-cols-3'
+                  : stages.length === 4
+                  ? 'sm:grid-cols-4'
+                  : 'sm:grid-cols-5'
               }`}
             >
-              <div className="flex items-center justify-between w-full">
-                <span
-                  className={`text-xs font-mono font-bold ${
-                    activeSlide === i ? theme.quickNavActiveStep : 'text-mist'
+              {stages.map((stg, i) => (
+                <button
+                  key={stg.step}
+                  ref={(el) => (buttonRefs.current[i] = el)}
+                  onClick={() => setActiveSlide(i)}
+                  className={`flex shrink-0 sm:shrink flex-col items-start rounded-xl sm:rounded-2xl p-3 sm:p-4 text-left transition-all duration-300 min-w-[130px] sm:min-w-0 snap-center ${
+                    activeSlide === i
+                      ? `${theme.quickNavActive} scale-[1.02]`
+                      : 'bg-white/[0.03] border border-white/10 text-mist hover:bg-white/[0.06] hover:text-paper hover:border-white/20'
                   }`}
                 >
-                  {stg.step}
-                </span>
-                <span className="text-[10px] sm:text-[11px] px-1.5 sm:px-2 py-0.5 rounded bg-white/5 text-mist font-mono">
-                  {stg.year}
-                </span>
-              </div>
-              <p className="text-xs sm:text-sm font-semibold text-paper mt-1.5 sm:mt-2 line-clamp-1">
-                {stg.shortTitle}
-              </p>
-            </button>
-          ))}
+                  <div className="flex items-center justify-between w-full">
+                    <span
+                      className={`text-xs font-mono font-bold ${
+                        activeSlide === i ? theme.quickNavActiveStep : 'text-mist'
+                      }`}
+                    >
+                      {stg.step}
+                    </span>
+                    <span className="text-[10px] sm:text-[11px] px-1.5 sm:px-2 py-0.5 rounded bg-white/5 text-mist font-mono">
+                      {stg.year}
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm font-semibold text-paper mt-1.5 sm:mt-2 line-clamp-1">
+                    {stg.shortTitle}
+                  </p>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Bottom CCF Trust & Verification Banner */}
+      <div className="mt-12 sm:mt-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-6 backdrop-blur-md">
+        <div className="flex items-center gap-3.5">
+          <div className={`h-11 w-11 shrink-0 rounded-xl ${theme.ccfBox} font-bold flex items-center justify-center text-sm shadow-md`}>
+            CCF
+          </div>
+          <div>
+            <h5 className="text-sm sm:text-base font-semibold text-paper leading-tight">
+              Cancer Charity Foundation
+            </h5>
+            <p className="text-xs text-mist mt-0.5 leading-relaxed">
+              Dedicated to early detection, dignifying patient care, and recovery support across Uganda
+            </p>
+          </div>
         </div>
 
-        {/* Bottom CCF Trust & Verification Banner */}
-        <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-6 backdrop-blur-md">
-          <div className="flex items-center gap-3.5">
-            <div className={`h-11 w-11 shrink-0 rounded-xl ${theme.ccfBox} font-bold flex items-center justify-center text-sm shadow-md`}>
-              CCF
-            </div>
-            <div>
-              <h5 className="text-sm sm:text-base font-semibold text-paper leading-tight">
-                Cancer Charity Foundation
-              </h5>
-              <p className="text-xs text-mist mt-0.5 leading-relaxed">
-                Dedicated to early detection, dignifying patient care, and recovery support across Uganda
-              </p>
-            </div>
-          </div>
-
-          <div className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-emerald-500/20 px-4 py-2 text-xs font-semibold text-emerald-300 border border-emerald-500/30 shrink-0">
-            <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
-            <span className="text-center">
-              Verified Living Testimony · Nsambya & Mulago Care
-            </span>
-          </div>
+        <div className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-emerald-500/20 px-4 py-2 text-xs font-semibold text-emerald-300 border border-emerald-500/30 shrink-0">
+          <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+          <span className="text-center">
+            Verified Living Testimony · Nsambya & Mulago Care
+          </span>
         </div>
       </div>
     </div>

@@ -32,6 +32,7 @@ const survivorSchema = new mongoose.Schema({
   highlightQuote: { type: String, default: '' },
   milestonesHeading: { type: String, default: 'The Path to Recovery' },
   milestonesSub: { type: String, default: 'Explore the vital chapters of courageous recovery' },
+  showMilestones: { type: Boolean, default: true },
   milestones: [milestoneSchema],
 })
 

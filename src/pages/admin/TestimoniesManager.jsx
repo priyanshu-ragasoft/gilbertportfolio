@@ -794,16 +794,75 @@ export default function TestimoniesManager() {
 
           {/* Card 3: The Path to Recovery (Vital Milestones) */}
           <div className="rounded-xl border border-white/10 bg-[#161412] p-6 shadow-xl space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-white/5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/5">
               <div className="flex items-center gap-2">
                 <Activity className="h-4 w-4 text-rose-400" />
                 <h2 className="font-serif text-lg text-paper">
                   The Path to Recovery ({currentMilestones.filter((m) => m.enabled !== false).length} of {currentMilestones.length} Visible in Slider)
                 </h2>
               </div>
-              <span className="text-xs text-[#8a847c]">
-                Editing Milestone {currentMilestone?.step || '01'} of {String(currentMilestones.length).padStart(2, '0')}
-              </span>
+
+              {/* Master Section Toggle */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-[#8a847c] font-medium">
+                  {currentSurvivor.showMilestones !== false ? 'Section Active' : 'Section Hidden'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    handleSurvivorFieldChange('showMilestones', currentSurvivor.showMilestones === false ? true : false)
+                  }
+                  className={`relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                    currentSurvivor.showMilestones !== false ? 'bg-emerald-500' : 'bg-white/20'
+                  }`}
+                  role="switch"
+                  aria-checked={currentSurvivor.showMilestones !== false}
+                  title={currentSurvivor.showMilestones !== false ? 'Turn Entire Slider Section OFF' : 'Turn Entire Slider Section ON'}
+                >
+                  <span
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
+                      currentSurvivor.showMilestones !== false ? 'translate-x-6' : 'translate-x-0'
+                    }`}
+                  />
+                </button>
+              </div>
+            </div>
+
+            {/* If Section is completely disabled */}
+            {currentSurvivor.showMilestones === false && (
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-200 flex items-center gap-2">
+                <AlertCircle className="h-4 w-4 shrink-0 text-amber-400" />
+                <span>Ye pura <strong>"The Path to Recovery"</strong> slider section website par disabled/hidden hai. Is survivor ke page par ye section render nahi hoga.</span>
+              </div>
+            )}
+
+            {/* Milestones Section Heading & Subtitle Inputs */}
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-[#8a847c] mb-1 font-medium">
+                  Section Main Heading
+                </label>
+                <input
+                  type="text"
+                  value={currentSurvivor.milestonesHeading || 'The Path to Recovery'}
+                  onChange={(e) => handleSurvivorFieldChange('milestonesHeading', e.target.value)}
+                  placeholder="The Path to Recovery"
+                  className="w-full rounded border border-white/10 bg-[#0d0c0a] px-3 py-1.5 text-sm text-paper focus:border-[#8d7043] focus:outline-none font-serif"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-[#8a847c] mb-1 font-medium">
+                  Section Subtitle
+                </label>
+                <input
+                  type="text"
+                  value={currentSurvivor.milestonesSub || ''}
+                  onChange={(e) => handleSurvivorFieldChange('milestonesSub', e.target.value)}
+                  placeholder={`Explore the vital chapters of recovery`}
+                  className="w-full rounded border border-white/10 bg-[#0d0c0a] px-3 py-1.5 text-sm text-paper focus:border-[#8d7043] focus:outline-none"
+                />
+              </div>
             </div>
 
             {/* Milestone Tabs with Active/Enabled Indicators */}
