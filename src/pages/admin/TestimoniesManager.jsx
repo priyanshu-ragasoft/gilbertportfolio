@@ -556,6 +556,29 @@ export default function TestimoniesManager() {
                 </div>
               </div>
 
+              {/* Survivor Top Pill / Eyebrow Badge Field */}
+              <div className="rounded-xl border border-white/10 bg-black/40 p-3.5 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs uppercase tracking-wider text-[#fae8be] font-semibold flex items-center gap-2">
+                    <Heart className="h-3.5 w-3.5 text-rose-400" />
+                    <span>Top Pill Badge (Eyebrow Tag)</span>
+                  </label>
+                  <span className="text-[10px] text-mist/60 font-mono">Header Tag</span>
+                </div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={currentSurvivor.eyebrow || ''}
+                    onChange={(e) => handleSurvivorFieldChange('eyebrow', e.target.value)}
+                    placeholder={`LIVING TESTIMONY · ${String(currentSurvivor.badge || 'BREAST CANCER SURVIVOR').toUpperCase()}`}
+                    className="w-full rounded border border-white/10 bg-[#0d0c0a] px-3 py-2 text-sm text-paper focus:border-[#8d7043] focus:outline-none font-medium tracking-wide uppercase"
+                  />
+                </div>
+                <p className="text-[11px] text-mist/60">
+                  Ye text survivor page ke top rounded pill badge par display hoga (e.g. <strong className="text-paper">LIVING TESTIMONY · {String(currentSurvivor.badge || 'BREAST CANCER SURVIVOR').toUpperCase()}</strong>).
+                </p>
+              </div>
+
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label className="block text-xs uppercase tracking-wider text-[#8a847c] mb-1.5 font-medium">
@@ -1006,7 +1029,7 @@ export default function TestimoniesManager() {
                     : 'border-rose-500/30 bg-rose-500/10 text-rose-300'
                 }`}>
                   <Heart className="h-3 w-3" />
-                  {currentSurvivor.badge}
+                  {currentSurvivor.eyebrow || `Living Testimony · ${currentSurvivor.badge || 'Cancer Survivor'}`}
                 </span>
                 <span className="text-[11px] text-mist/60 font-mono">{currentSurvivor.year}</span>
               </div>

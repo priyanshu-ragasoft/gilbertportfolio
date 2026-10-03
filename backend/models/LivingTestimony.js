@@ -16,6 +16,7 @@ const survivorSchema = new mongoose.Schema({
   id: { type: String, required: true },
   name: { type: String, required: true },
   badge: { type: String, default: 'Cancer Survivor' },
+  eyebrow: { type: String, default: '' },
   age: { type: String, default: '' },
   year: { type: String, default: '' },
   hospitals: { type: String, default: '' },
